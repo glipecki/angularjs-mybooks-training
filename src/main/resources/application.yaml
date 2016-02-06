@@ -1,0 +1,17 @@
+spring:
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+security:
+  user:
+    name: admin
+    password: admin
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /api-docs
+logging:
+  level:
+    io.swagger.models.parameters.AbstractSerializableParameter: ERROR
