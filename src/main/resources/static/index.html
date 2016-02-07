@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html ng-app="booksApp">
 
 <head>
     <link rel="stylesheet" href="libs/font-awesome-4.5.0/css/font-awesome.css" />
@@ -30,11 +30,18 @@
                 <div>
                     <ul class="nav navbar-nav">
                         <li>
-                            <a>Lista książek</a>
+                            <a ui-sref="book-list">Lista książek</a>
                         </li>
                         <li>
-                            <a>Dodaj książkę</a>
+                            <a ui-sref="book-add">Dodaj książkę</a>
                         </li>
+                        <li>
+                            <a ui-sref="book-edit">Edytuj książkę</a>
+                        </li>
+                        <li>
+                            <a ui-sref="book-details">Detale książki</a>
+                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -43,7 +50,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <div></div>
+                        <div ui-view></div>
                     </div>
                 </div>
             </div>
