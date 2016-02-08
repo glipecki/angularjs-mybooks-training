@@ -1,33 +1,34 @@
+<pre> {{ vm | json }} </pre>
 <div class="panel panel-default">
     <div class="panel-heading">Dodaj nową książkę</div>
     <div class="panel-body">
         <form novalidate name="editBookForm">
             <div class="form-group">
                 <label for="name">Nazwa</label>
-                <input name="name" type="text" class="form-control" placeholder="Podaj nazwę" required />
+                <input name="name" type="text" class="form-control" placeholder="Podaj nazwę" required ng-model="vm.book.name"/>
                 <span class="help-block">Musisz podać nazwę książki</span>
             </div>
             <div class="form-group" >
                 <label for="isbn">ISBN</label>
-                <input name="isbn" type="text" class="form-control" placeholder="Podaj numer ISBN" required />
+                <input name="isbn" type="text" class="form-control" placeholder="Podaj numer ISBN" required ng-model="vm.book.isbn"/>
                 <span class="help-block">Musisz podać poprawny numer ISBN</span>
             </div>
-            <div class="form-group">
+            <div class="form-group" >
                 <label for="author">Autor</label>
-                <select name="author" class="form-control" required>
+                <select name="author" class="form-control" required ng-model="vm.book.author" ng-options="author.name for author in vm.authors" ng-disabled="vm.isAddNewAuthor">
                 </select>
                 <span class="help-block">Musisz wybrać autora książki</span>
             </div>
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" /> Dodaj nowego autora
+                    <input type="checkbox" ng-model="vm.isAddNewAuthor"/> Dodaj nowego autora
                 </label>
             </div>
-            <div class="form-group" >
+            <div class="form-group" ng-show="vm.isAddNewAuthor" class="ng-hide">
                 <label for="authorName">Nazwa autora</label>
-                <input type="text" placeholder="Podaj nazwę autora" class="form-control" required />
+                <input type="text" placeholder="Podaj nazwę autora" class="form-control" required ng-model="vm.typedAuthor"/>
             </div>
         </form>
-        <button type="button" class="btn btn-success">Zapisz</button>
+        <button type="button" class="btn btn-success" ng-click="addBook()">Zapisz</button>
     </div>
 </div>
