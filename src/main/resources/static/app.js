@@ -16,34 +16,54 @@ myApp.factory("SeriesResource", function ($resource) {
   return $resource("/api/series/:id");
 });
 
-myApp.service('BookService', ['BookResource', function(res) {
+myApp.service('BookService', ['BookResource', '$window', function(res, $window) {
+   onFailure = function() {
+       $window.alert("Błąd podczas operacji na książce");
+   }
+    
    this.getBooks = function() {
        return res.query();
    };
-    this.addBook = function(book) {
-        res.save(book);
+    this.addBook = function(book, onSuccess) {
+        return res.save(book, onSuccess, onFailure);
     };
     this.getBook = function(id) {
-        res.get(id);
+        return res.get({id:id});
     };
 }]);
 
-myApp.service('AuthorsService', ['AuthorResource', function(res) {
+myApp.service('AuthorsService', ['AuthorResource', '$window', function(res, $window) {
+   onFailure = function() {
+       $window.alert("Błąd podczas operacji na autorku");
+   }
+    
    this.getAuthors = function() {
        return res.query();
+   };
+   this.addAuthor = function(author, onSuccess) {
+       return res.save(author, onSuccess, onFailure);
    };
 }]);
 
 
-myApp.controller('BookAddController', function($scope, authors, BookService, AuthorsService) {
+myApp.controller('BookAddController', function($scope, $state, authors, BookService, AuthorsService) {
         this.authors = authors;
         $scope.addBook = function() {
-            if (this.vm.isAddNewAuthor) {
-                this.vm.book.author.id=null;
-                this.vm.book.author.name=this.vm.typedAuthor;
-                // TODO AuthorsService.addAuthor()
+            if ($scope.vm.isAddNewAuthor) {
+                $scope.vm.book.author = { name:$scope.vm.typedAuthor };
+                AuthorsService.addAuthor($scope.vm.book.author, function() {
+                    // on success
+                    BookService.addBook($scope.vm.book, function() {
+                        // success -add- book
+                        $state.go('book-list');
+                    });
+                });
+            } else {
+                BookService.addBook($scope.vm.book, function() {
+                        // success -add- book
+                        $state.go('book-list');
+                    });
             }
-            BookService.addBook(this.vm.book);
         }
 });
 
@@ -80,9 +100,13 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
     .state('book-details', {
       url: '/books/{id:[0-9]+}',
       templateUrl: "views/book.details.tpl.html",
-      controller: function($stateParams) {
-        console.log($stateParams.id);
-    }
+      controller: function(book) {
+        this.book = book;
+      },
+      controllerAs: 'vm',
+      resolve: {
+        book: ['BookService', '$stateParams', function(bookService, $stateParams) { return bookService.getBook($stateParams.id); }]
+      }
     })
 
     });
