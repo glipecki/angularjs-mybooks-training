@@ -1,15 +1,19 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Filtruj książki" />
+            <input type="text" class="form-control" placeholder="Filtruj książki" ng-model="currentFilter"/>
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-search"></span>
             </span>
         </div>
     </div>
 </div>
-<ul class="list-group">
-    <li class="list-group-item">
-        <a>Bohaterowie umierają (<em>Matthew Woodring Stover</em>)</a>
-    </li>
-</ul>
+<div>
+	<ul class="list-group">
+		<li class="list-group-item"
+			ng-repeat="book in vm.books | filter:currentFilter"><a
+			ui-sref="book-details({id: book.id})"> {{ book.name }} (<em>{{
+					book.author.name}}</em>)
+		</a></li>
+	</ul>
+</div>
