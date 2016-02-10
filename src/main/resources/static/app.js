@@ -72,7 +72,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		resolve : {
 			book : [ 'bookService', '$stateParams',
 					function(bookService, $stateParams) {
-						console.log($stateParams.id);
 						return bookService.getBook($stateParams.id);
 					} ]
 		}
@@ -87,6 +86,21 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			authors : [ 'authorService', function(authorService) {
 				console.log(authorService.getAuthors());
 				return authorService.getAuthors();
+			} ]
+		}
+	});
+	
+	$stateProvider.state('book-edit', {
+		url : '/edit/{id:[0-9]+}',
+		templateUrl : 'views/book.edit.tpl.html',
+		controller : 'BookEditController',
+		controllerAs : 'vm',
+		resolve : {
+			authors : [ 'authorService', function(authorService) {
+				return authorService.getAuthors();
+			} ],
+			book : [ 'bookService', '$stateParams', function(bookService, $stateParams) {
+				return bookService.getBook($stateParams.id);
 			} ]
 		}
 	});
@@ -107,7 +121,7 @@ app.controller('AuthorController', [ 'authors', function(authors) {
 
 app.controller('BookAddController', [ 'authors', 'bookService', '$state', '$scope', function(authors, bookService, $state, $scope) {
 	this.authors = authors;
-	this.book = {author: {}};
+	this.book = book;
 	$scope.addBook = function() {
 		bookService.addBook($scope.vm.book).then(function() {
 			$state.go('book-list');
@@ -115,4 +129,9 @@ app.controller('BookAddController', [ 'authors', 'bookService', '$state', '$scop
 			alert("error");
 		});
 	};
+} ]);
+
+app.controller('BookEditController', [ 'authors', 'book', 'bookService', '$state', '$scope', function(authors, book, bookService, $state, $scope) {
+	this.authors = authors;
+	this.book = book;
 } ]);
