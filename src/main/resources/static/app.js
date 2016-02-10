@@ -1,7 +1,9 @@
 var myApp = angular.module('booksApp', ['ui.router', 'ngResource']);
 
 myApp.factory("BookResource", function ($resource) {
-  return $resource("/api/books/:id");
+  return $resource("/api/books/:id", null, {
+      'update': { method:'PUT' }
+  });
 });
 
 myApp.factory("AuthorResource", function ($resource) {
@@ -25,7 +27,11 @@ myApp.service('BookService', ['BookResource', '$window', function(res, $window) 
        return res.query();
    };
     this.addBook = function(book, onSuccess) {
-        return res.save(book, onSuccess, onFailure);
+        if (book.id) {
+            return res.update({id : book.id}, book, onSuccess, onFailure);
+        } else {
+            return res.save(book, onSuccess, onFailure);
+        }
     };
     this.getBook = function(id) {
         return res.get({id:id});
@@ -46,20 +52,23 @@ myApp.service('AuthorsService', ['AuthorResource', '$window', function(res, $win
 }]);
 
 
-myApp.controller('BookAddController', function($scope, $state, authors, BookService, AuthorsService) {
+myApp.controller('BookAddController', function($scope, $state, authors, book, BookService, AuthorsService) {
         this.authors = authors;
+        this.book = book;
+        var ref = this;
         $scope.addBook = function() {
-            if ($scope.vm.isAddNewAuthor) {
-                $scope.vm.book.author = { name:$scope.vm.typedAuthor };
-                AuthorsService.addAuthor($scope.vm.book.author, function() {
+            if (ref.isAddNewAuthor) {
+                ref.book.author = { name:ref.typedAuthor };
+                var resAddAuthor = AuthorsService.addAuthor(ref.book.author, function() {
                     // on success
-                    BookService.addBook($scope.vm.book, function() {
+                    ref.book.author = resAddAuthor;
+                    BookService.addBook(ref.book, function() {
                         // success -add- book
                         $state.go('book-list');
                     });
                 });
             } else {
-                BookService.addBook($scope.vm.book, function() {
+                BookService.addBook(ref.book, function() {
                         // success -add- book
                         $state.go('book-list');
                     });
@@ -84,9 +93,12 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
     .state('book-edit', {
       url: "/bookedit/{id:[0-9]+}",
       templateUrl: "views/book.edit.tpl.html",
-      controller: function($stateParams) {
-        console.log($stateParams.id);
-        }
+      controller: 'BookAddController',
+      controllerAs: 'vm',
+      resolve: {
+        authors: ['AuthorsService', function(authorService) { return authorService.getAuthors(); }], 
+        book: ['BookService', '$stateParams', function(bookService, $stateParams) { return bookService.getBook($stateParams.id); }]
+      }
     })
     .state('book-add', {
       url: "/bookedit",
@@ -94,7 +106,9 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
       controller: 'BookAddController',
       controllerAs: 'vm',
       resolve: {
-        authors: ['AuthorsService', function(authorService) { return authorService.getAuthors(); }]
+        authors: ['AuthorsService', function(authorService) { return authorService.getAuthors(); }],
+        book: function() { return {}; }
+          
       }
     })
     .state('book-details', {
