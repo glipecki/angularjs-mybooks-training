@@ -26,6 +26,17 @@ app.service('CategoryService', [ '$http', '$q', function($http, $q) {
 		return deferred.promise;
 	};
 	
+	this.addCategory = function(category) {
+		var deferred = $q.defer();
+		$http.post('/api/category', category).then(function(response) {
+			deferred.resolve(response.data);
+		}, function(response) {
+			deferred.reject(response);
+		});
+		return deferred.promise;
+	}
+	
+	
 } ]);
 
 app.service('SeriesService', [ '$http', '$q', function($http, $q) {
@@ -175,12 +186,28 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		url : '/seriesAdd',
 		templateUrl : 'views/series.edit.tpl.html',
 		controller : 'AddSeriaController',
+		controllerAs : 'vm'
+	});
+	
+	$stateProvider.state('category-list', {
+		url : '/category',
+		templateUrl : 'views/category.list.tpl.html',
+		controller : function(categories) {
+			this.categories = categories;
+		},
 		controllerAs : 'vm',
 		resolve : {
-			series : [ 'SeriesService', function(seriesService) {
-				return seriesService.getSeries();
+			categories : [ 'CategoryService', function(categoryService) {
+				return categoryService.getCategories();
 			} ]
 		}
+	});
+	
+	$stateProvider.state('category-add', {
+		url : '/categoryAdd',
+		templateUrl : 'views/category.edit.tpl.html',
+		controller : 'AddCategoryController',
+		controllerAs : 'vm'
 	});
 });
 
@@ -237,20 +264,27 @@ app.controller('BookEditController', [ 'authors', 'book', 'BookService', '$state
 	}
 } ]);
 
-app.controller('AddSeriaController', [ 'series', 'SeriesService', '$state', '$scope', function(series, seriesService, $state, $scope) {
-	this.series = series;
+app.controller('AddSeriaController', ['SeriesService', '$state', '$scope', function( seriesService, $state, $scope) {
 	this.saveSeria = function() {
 		seriesService.addSeria(this.seria).then(function() {
-			$scope.series = seriesService.getSeries();
 			$state.go('series-list');
 		}, function() {
 			alert("error");
 		});
 	};
 	
-	this.clearSeria = function() {
-		this.seria = {};
-	};
-	
 	this.seria = {};
 } ]);
+
+app.controller('AddCategoryController', [ 'CategoryService', '$state', '$scope', function(categoryService, $state, $scope) {
+	this.saveCategory = function() {
+		categoryService.addCategory(this.category).then(function() {
+			$state.go('category-list');
+		}, function() {
+			alert("error");
+		});
+	};
+	
+	//this.category = {};
+} ]);
+
