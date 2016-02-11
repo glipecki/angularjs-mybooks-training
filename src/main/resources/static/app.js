@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('app', [ 'ui.router' ]);
+var app = angular.module('app', [ 'ui.router', 'ui.bootstrap' ]);
 
 app.service('AuthorService', [ '$http', '$q', function($http, $q) {
 	this.getAuthors = function() {
@@ -38,6 +38,16 @@ app.service('SeriesService', [ '$http', '$q', function($http, $q) {
 		});
 		return deferred.promise;
 	};
+	
+	this.addSeria = function(seria) {
+		var deferred = $q.defer();
+		$http.post('/api/series', seria).then(function(response) {
+			deferred.resolve(response.data);
+		}, function(response) {
+			deferred.reject(response);
+		});
+		return deferred.promise;
+	}
 	
 } ]);
 
@@ -85,7 +95,7 @@ app.service('BookService', [ '$http', '$q', function($http, $q) {
 } ]);
 
 app.config(function($stateProvider, $urlRouterProvider) {
-	$urlRouterProvider.otherwise("/books");
+	$urlRouterProvider.otherwise('/books');
 	$stateProvider.state('book-list', {
 		url : '/books',
 		templateUrl : 'views/book.list.tpl.html',
@@ -128,11 +138,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			} ],
 			series : [ 'SeriesService', function(seriesService) {
 				return seriesService.getSeries();
-			} ],
-			book : [function() {
-				return {author:{}};
-			} ],
-
+			} ]
 		}
 	});
 	
@@ -150,7 +156,32 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			} ]
 		}
 	});
-
+	
+	$stateProvider.state('series-list', {
+		url : '/series',
+		templateUrl : 'views/series.list.tpl.html',
+		controller : function(series) {
+			this.series = series;
+		},
+		controllerAs : 'vm',
+		resolve : {
+			series : [ 'SeriesService', function(seriesService) {
+				return seriesService.getSeries();
+			} ]
+		}
+	});
+	
+	$stateProvider.state('series-add', {
+		url : '/seriesAdd',
+		templateUrl : 'views/series.edit.tpl.html',
+		controller : 'AddSeriaController',
+		controllerAs : 'vm',
+		resolve : {
+			series : [ 'SeriesService', function(seriesService) {
+				return seriesService.getSeries();
+			} ]
+		}
+	});
 });
 
 app.controller('BookListController', [ 'books', function(books) {
@@ -204,4 +235,22 @@ app.controller('BookEditController', [ 'authors', 'book', 'BookService', '$state
 			break;
 		}
 	}
+} ]);
+
+app.controller('AddSeriaController', [ 'series', 'SeriesService', '$state', '$scope', function(series, seriesService, $state, $scope) {
+	this.series = series;
+	this.saveSeria = function() {
+		seriesService.addSeria(this.seria).then(function() {
+			$scope.series = seriesService.getSeries();
+			$state.go('series-list');
+		}, function() {
+			alert("error");
+		});
+	};
+	
+	this.clearSeria = function() {
+		this.seria = {};
+	};
+	
+	this.seria = {};
 } ]);
