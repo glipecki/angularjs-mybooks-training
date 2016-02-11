@@ -1,0 +1,16 @@
+
+<div class="panel-heading">Dodaj Serię Wydawniczą</div>
+<div class="panel-body">
+	<form novalidate name="seriesForm">
+		<div class="form-group">
+			<label for="name">Nazwa</label> <input name="name" type="text"
+				class="form-control" placeholder="Podaj nazwę" required
+				ng-model="vm.seria.name" /> <span class="help-block"
+				ng-show="seriesForm.name.$touched && seriesForm.name.$invalid">
+				Musisz podać nazwę Serii Wydawniczej</span>
+		</div>
+	</form>
+	<button type="button" class="btn btn-success" data-dismiss="modal"
+		ng-click="vm.saveSeria()" ng-disabled="seriesForm.$invalid">
+		Zapisz</button>
+</div>

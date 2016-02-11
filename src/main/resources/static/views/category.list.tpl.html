@@ -1,0 +1,22 @@
+<button type="button" class="btn btn-primary"
+	data-target=".bs-example-modal-sm" ui-sref="series-add()">Dodaj</button>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Nazwa</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="category in vm.categories | filter:currentFilter"
+			ng-class="selected">
+			<td>{{seria.id}}</td>
+			<td>{{seria.name}}</td>
+			<td>
+				<button class="btn btn-warning btn-xs"
+					ui-sref="category-edit({id: category.id})">Edytuj</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
