@@ -51,6 +51,16 @@ myApp.service('AuthorsService', ['AuthorResource', '$window', function(res, $win
    };
 }]);
 
+myApp.value('CurrentNavigationState', {});
+myApp.run(['$rootScope', 'CurrentNavigationState', function($rootScope, crNavSt8) {
+    $rootScope.$on('$stateChangeSuccess', function(event, toState, toStateParams) {
+        crNavSt8.name = toState.name;
+        crNavSt8.params = toStateParams;
+    });
+}])
+myApp.controller('NavbarController', ['CurrentNavigationState', function(state) {
+    this.currentNavigationState = state;
+}]);
 
 myApp.controller('BookAddController', function($scope, $state, authors, book, BookService, AuthorsService) {
         this.authors = authors;
@@ -73,6 +83,9 @@ myApp.controller('BookAddController', function($scope, $state, authors, book, Bo
                         $state.go('book-list');
                     });
             }
+        }
+        $scope.clearAuthor = function() {
+            ref.book.author = {};
         }
 });
 

@@ -19,7 +19,7 @@
 <body>
     <div>
         <nav class="navbar navbar-default">
-            <div class="container">
+            <div class="container" ng-controller="NavbarController as vm">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">
                         <i class="fa fa-book"></i> myBooks
@@ -27,10 +27,14 @@
                 </div>
                 <div>
                     <ul class="nav navbar-nav">
-                        <li>
+                        <li ng-class="{
+                                      'active': vm.currentNavigationState.name === 'book-list'
+                                      }">
                             <a ui-sref="book-list">Lista książek</a>
                         </li>
-                        <li>
+                        <li ng-class="{
+                                      'active': vm.currentNavigationState.name === 'book-add'
+                                      }">
                             <a ui-sref="book-add">Dodaj książkę</a>
                         </li>
                     </ul>

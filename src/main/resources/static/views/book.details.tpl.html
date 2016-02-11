@@ -40,8 +40,9 @@
                     <div class="col-md-2 book-info-label">
                         <em>Kategorie</em>
                     </div>
-                    <div class="col-md-10">
-                        {{ vm.book.category.name }}
+                    <div class="col-md-10" ng-repeat="category in vm.book.categories">
+                        {{ category.name }}
+                        <span ng-show="!$last">, </span>
                     </div>
                 </div>
             </div>
