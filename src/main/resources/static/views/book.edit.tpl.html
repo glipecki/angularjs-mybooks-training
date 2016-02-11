@@ -26,19 +26,30 @@
 					Musisz wybrać autora książki</span>
 			</div>
 			<div class="checkbox">
-				<label> <input type="checkbox" ng-model="vm.addAuthor" />
+				<label> <input type="checkbox" ng-model="vm.addAuthor" ng-click="vm.clearAuthor()"/>
 					Dodaj nowego autora
 				</label>
 			</div>
 			<div class="form-group" ng-show="vm.addAuthor">
 				<label for="authorName">Nazwa autora</label> 
 				<input type="text" ng-model="vm.book.author.name"
-					placeholder="Podaj nazwę autora" class="form-control" required />
+					placeholder="Podaj nazwę autora" class="form-control" ng-required="vm.addAuthor" />
+			</div>
+			<div class="form-group">
+				<label for="seria">Seria</label> 
+				<select name="seria"
+					class="form-control" ng-model="vm.book.series"
+					ng-options="seria.name for seria in vm.series" /> 
+			</div>
+			<div class="form-group">
+				<label for="category">Kategoria</label> 
+				<select name="category"
+					class="form-control" ng-model="vm.book.categories"
+					ng-options="category.name for category in vm.categories" /> 
 			</div>
 		</form>
-		<button type="button" class="btn btn-success" ng-click="addBook()"
-			ng-disabled="editBookForm.name.$invalid || editBookForm.isbn.$invalid || 
-			(editBookForm.author.$invalid && !vm.addAuthor) || (editBookForm.authorName.$invalid && vm.addAuthor)">
+		<button type="button" class="btn btn-success" ng-click="vm.saveBook()"
+			ng-disabled="editBookForm.$invalid">
 			Zapisz
 		</button>
 

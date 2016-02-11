@@ -2,8 +2,8 @@
 
 var app = angular.module('app', [ 'ui.router' ]);
 
-app.service('authorService', [ '$http', '$q', function($http, $q) {
-	this.getAuthors = function(bookId) {
+app.service('AuthorService', [ '$http', '$q', function($http, $q) {
+	this.getAuthors = function() {
 		var deferred = $q.defer();
 		$http.get('/api/author/').then(function(response) {
 			deferred.resolve(response.data);
@@ -12,10 +12,37 @@ app.service('authorService', [ '$http', '$q', function($http, $q) {
 		});
 		return deferred.promise;
 	};
+	
+} ]);
+
+app.service('CategoryService', [ '$http', '$q', function($http, $q) {
+	this.getCategories = function() {
+		var deferred = $q.defer();
+		$http.get('/api/category/').then(function(response) {
+			deferred.resolve(response.data);
+		}, function(response) {
+			deferred.reject(response);
+		});
+		return deferred.promise;
+	};
+	
+} ]);
+
+app.service('SeriesService', [ '$http', '$q', function($http, $q) {
+	this.getSeries = function() {
+		var deferred = $q.defer();
+		$http.get('/api/series/').then(function(response) {
+			deferred.resolve(response.data);
+		}, function(response) {
+			deferred.reject(response);
+		});
+		return deferred.promise;
+	};
+	
 } ]);
 
 
-app.service('bookService', [ '$http', '$q', function($http, $q) {
+app.service('BookService', [ '$http', '$q', function($http, $q) {
 	this.getBook = function(bookId) {
 		var deferred = $q.defer();
 		$http.get('/api/books/' + bookId).then(function(response) {
@@ -45,6 +72,16 @@ app.service('bookService', [ '$http', '$q', function($http, $q) {
 		});
 		return deferred.promise;
 	}
+	
+	this.updateBook = function(bookId, book) {
+		var deferred = $q.defer();
+		$http.put('/api/books/' + bookId, book).then(function(response) {
+			deferred.resolve(response.data);
+		}, function(response) {
+			deferred.reject(response);
+		});
+		return deferred.promise;
+	}
 } ]);
 
 app.config(function($stateProvider, $urlRouterProvider) {
@@ -55,7 +92,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		controller : 'BookListController',
 		controllerAs : 'vm',
 		resolve : {
-			books : [ 'bookService', function(bookService) {
+			books : [ 'BookService', function(bookService) {
 				return bookService.getBooks();
 			} ]
 		}
@@ -70,7 +107,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		controller : 'BookDetailsController',
 		controllerAs : 'vm',
 		resolve : {
-			book : [ 'bookService', '$stateParams',
+			book : [ 'BookService', '$stateParams',
 					function(bookService, $stateParams) {
 						return bookService.getBook($stateParams.id);
 					} ]
@@ -83,10 +120,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		controller : 'BookAddController',
 		controllerAs : 'vm',
 		resolve : {
-			authors : [ 'authorService', function(authorService) {
-				console.log(authorService.getAuthors());
-				return authorService.getAuthors();
-			} ]
+			authors : [ 'AuthorService', function(AuthorService) {
+				return AuthorService.getAuthors();
+			} ],
+			categories : [ 'CategoryService', function(categoryService) {
+				return categoryService.getCategories();
+			} ],
+			series : [ 'SeriesService', function(seriesService) {
+				return seriesService.getSeries();
+			} ],
+			book : [function() {
+				return {author:{}};
+			} ],
+
 		}
 	});
 	
@@ -96,10 +142,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		controller : 'BookEditController',
 		controllerAs : 'vm',
 		resolve : {
-			authors : [ 'authorService', function(authorService) {
+			authors : [ 'AuthorService', function(authorService) {
 				return authorService.getAuthors();
 			} ],
-			book : [ 'bookService', '$stateParams', function(bookService, $stateParams) {
+			book : [ 'BookService', '$stateParams', function(bookService, $stateParams) {
 				return bookService.getBook($stateParams.id);
 			} ]
 		}
@@ -119,19 +165,43 @@ app.controller('AuthorController', [ 'authors', function(authors) {
 	this.authors = authors;
 } ]);
 
-app.controller('BookAddController', [ 'authors', 'bookService', '$state', '$scope', function(authors, bookService, $state, $scope) {
+app.controller('BookAddController', [ 'authors', 'series', 'categories', 'BookService', '$state', '$scope', function(authors, series, categories, bookService, $state, $scope) {
 	this.authors = authors;
-	this.book = book;
-	$scope.addBook = function() {
-		bookService.addBook($scope.vm.book).then(function() {
+	this.series = series;
+	this.categories = categories;
+	this.saveBook = function() {
+		bookService.addBook(this.book).then(function() {
 			$state.go('book-list');
 		}, function() {
 			alert("error");
 		});
 	};
+	this.clearAuthor = function() {
+		this.book.author = {};
+	};
+	this.book = {};
 } ]);
 
-app.controller('BookEditController', [ 'authors', 'book', 'bookService', '$state', '$scope', function(authors, book, bookService, $state, $scope) {
+app.controller('BookEditController', [ 'authors', 'book', 'BookService', '$state', '$scope', function(authors, book, bookService, $state, $scope) {
 	this.authors = authors;
 	this.book = book;
+	
+	this.clearAuthor = function() {
+		this.book.author = {};
+	};
+	
+	this.saveBook = function() {
+		bookService.updateBook(this.book.id, this.book).then(function() {
+			$state.go('book-list');
+		}, function() {
+			alert("error");
+		});
+	};
+
+	for(var author of this.authors) {
+		if(this.book.author.id === author.id) {
+			this.book.author = author;
+			break;
+		}
+	}
 } ]);
