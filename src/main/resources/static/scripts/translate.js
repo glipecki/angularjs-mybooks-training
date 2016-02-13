@@ -19,12 +19,14 @@ app.config(['$translateProvider', function ($translateProvider) {
     FILTER_BOOKS: 'Filtruj książki',
     SAVE_BOOK: 'Zapisz książkę',
     
-    ADD_AUTHOR: 'Dodaj nowego autora', 
+    ADD_AUTHOR: 'Dodaj autora',
+    ADD_NEW_AUTHOR: 'Dodaj nowego autora',
     AUTHOR_NAME: "Nazwa autora",
     BOOK_AUTHOR_REQUIRED: 'Musisz podać autora książki',
      
     
     ADD_SERIES: 'Dodaj nową serię',
+    ADD_NEW_SERIES: 'Dodaj nową serię',
     SERIES_NAME: 'Nazwa serii',
     SERIES: 'Seria',    
     SERIES_NAME_REQUIRED: 'Musisz podać nazwę serii',

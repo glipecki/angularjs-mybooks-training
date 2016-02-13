@@ -52,3 +52,7 @@ h3.book-title {
 #languages a:hover {
     background: #eaeaea none repeat scroll 0 0;
 }
+
+.toast-message li {
+    list-style: outside none none;
+}
