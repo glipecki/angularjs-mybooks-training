@@ -35,6 +35,12 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 		resolve: {
 			authors: ['AuthorService', function(authorService) {
 				return authorService.getAuthors();
+			}],
+			series: ['SeriesService', function(seriesService) {
+				return seriesService.getSeries();
+			}],
+			categories: ['CategoryService', function(categoryService) {
+				return categoryService.getCategories();
 			}]
 		}
 	});
@@ -49,6 +55,12 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 			}],
 			authors: ['AuthorService', function(authorService) {
 				return authorService.getAuthors();
+			}],
+			series: ['SeriesService', function(seriesService) {
+				return seriesService.getSeries();
+			}],
+			categories: ['CategoryService', function(categoryService) {
+				return categoryService.getCategories();
 			}]
 		}
 	});

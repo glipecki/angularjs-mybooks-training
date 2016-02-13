@@ -50,7 +50,7 @@ app.controller('BookListController', ['books', function(books) {
 	this.books = books;
 }]);
 
-app.controller('AddBookController', ['authors', 'BookService', '$state', function(authors, bookService, $state) {
+app.controller('AddBookController', ['authors', 'series', 'categories', 'BookService', '$state', function(authors, series, categories, bookService, $state) {
 	this.saveBook = function() {
 		bookService.addBook(this.book).then(function() {
 			$state.go('book-list');
@@ -61,11 +61,19 @@ app.controller('AddBookController', ['authors', 'BookService', '$state', functio
 	this.resetAuthor = function() {
 		this.book.author = {};
 	}
+	this.resetSeries = function() {
+		this.book.series = {};
+	}
+	this.resetCategories = function() {
+		this.book.categories = {};
+	}
 	this.authors = authors;
+	this.series = series;
+	this.categories = categories;
 	this.book = {};
 }]);
 
-app.controller('EditBookController', ['authors', 'book', 'BookService', '$state', function(authors, book, bookService, $state) {
+app.controller('EditBookController', ['authors', 'series', 'categories', 'book', 'BookService', '$state', function(authors, series, categories, book, bookService, $state) {
 	this.saveBook = function() {
 		bookService.updateBook(this.book).then(function() {
 			$state.go('book-list');
@@ -76,12 +84,28 @@ app.controller('EditBookController', ['authors', 'book', 'BookService', '$state'
 	this.resetAuthor = function() {
 		this.book.author = {};
 	}
+	this.resetSeries = function() {
+		this.book.series = {};
+	}
+	this.resetCategories = function() {
+		this.book.categories = {};
+	}
 	this.authors = authors;
+	this.series = series;
+	this.series.unshift(null);
+	this.categories = categories;
 	this.book = book;
 
 	for (author of this.authors) {
 		if (this.book.author.id === author.id) {
 			this.book.author = author;
+			break;
+		}
+	}
+
+	for (series of this.series) {
+		if (this.book.author.series && this.book.seriesthis.book.series.id === series.id) {
+			this.book.series = series;
 			break;
 		}
 	}

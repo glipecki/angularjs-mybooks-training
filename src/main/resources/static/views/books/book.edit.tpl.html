@@ -33,6 +33,20 @@
                 <label for="authorName">Nazwa autora</label>
                 <input ng-model="vm.book.author.name" type="text" placeholder="Podaj nazwę autora" class="form-control" required />
             </div>
+            <div class="form-group">
+                <label for="series">Seria</label>
+                <select ng-model="vm.book.series" name="series" ng-options="series as series.name for series in vm.series" class="form-control">
+                </select>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="vm.createNewSeries" ng-click="vm.resetSeries()"/> Dodaj nową serię
+                </label>
+            </div>
+            <div class="form-group" ng-show="vm.createNewSeries">
+                <label for="seriesName">Nazwa serii</label>
+                <input ng-model="vm.book.series.name" type="text" placeholder="Podaj nazwę serii" class="form-control" />
+            </div>
         </form>
         <button type="button" class="btn btn-success" ng-disabled="editBookForm.$invalid" ng-click="vm.saveBook()">Zapisz książkę</button>
     </div>
