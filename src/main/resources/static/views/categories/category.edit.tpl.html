@@ -6,7 +6,7 @@
                 'has-error': editCategoryForm.name.$invalid && !editCategoryForm.name.$pristine
             }">
                 <label for="name">{{ 'NAME' | translate }} </label>
-                <input ng-model="vm.category.name" name="name" type="text" class="form-control" placeholder="Podaj nazwę" required />
+                <input ng-model="vm.category.name" name="name" type="text" class="form-control" placeholder="{{ 'ENTER_NAME' | translate }}" required />
                 <span class="help-block" ng-show="editCategoryForm.name.$invalid && !editCategoryForm.name.$pristine">{{ 'CATEGORY_NAME_REQUIRED' | translate }}</span>
             </div>
         </form>

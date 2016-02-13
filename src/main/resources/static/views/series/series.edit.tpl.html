@@ -6,7 +6,7 @@
                 'has-error': editSeriesForm.name.$invalid && !editSeriesForm.name.$pristine
             }">
                 <label for="name">{{ 'NAME' | translate }}</label>
-                <input ng-model="vm.series.name" name="name" type="text" class="form-control" placeholder= "{{ 'NAME_REQUIRED' | translate }}" required />
+                <input ng-model="vm.series.name" name="name" type="text" class="form-control" placeholder= "{{ 'ENTER_NAME' | translate }}" required />
                 <span class="help-block" ng-show="editSeriesForm.name.$invalid && !editSeriesForm.name.$pristine">{{ 'SERIES_NAME_REQUIRED' | translate }}</span>
             </div>
         </form>

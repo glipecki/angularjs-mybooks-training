@@ -1,7 +1,7 @@
 /**
 * App module
 */
-var app = angular.module('mybooks', ['ui.router', 'pascalprecht.translate', 'ngAnimate', 'ngToast']);
+var app = angular.module('mybooks', ['ui.router', 'pascalprecht.translate']);
 
 /**
 * Controllers
@@ -17,6 +17,12 @@ app.run(['$rootScope', 'CurrentNavigationState', function($rootScope, currentNav
 app.controller('NavbarController', ['CurrentNavigationState', function(currentNavigationState) {
 	this.currentNavigationState = currentNavigationState;
 }]);
+
+app.controller('Ctrl', function ($scope, $translate) {
+  $scope.changeLanguage = function (key) {
+    $translate.use(key);
+  };
+});
 
 app.controller('CdOverlayController', ['$rootScope', function($rootScope) {
 	var ctrl = this;
