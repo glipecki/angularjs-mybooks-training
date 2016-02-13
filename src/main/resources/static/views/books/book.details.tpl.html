@@ -17,32 +17,27 @@
                             <em translate="BOOK_ISBN">  </em>
                         </div>
                         <div class="col-md-10">
-                            <em> {{ vm.book.isbn }} </em>
+                            <em ng-bind ="vm.book.isbn"> </em>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-2 book-info-label">
-                            <em translate="BOOK_AUTHOR" </em>
+                            <em translate="BOOK_AUTHOR"> </em>
                         </div>
-                        <div class="col-md-10">
-                            {{ vm.book.author.name }}
-                        </div>
+                        <div class="col-md-10" ng-bind="vm.book.author.name"></div>
                     </div>
                     <div class="row">
                         <div class="col-md-2 book-info-label">
                             <em translate="SERIES"> </em>
                         </div>
-                        <div class="col-md-10">
-                            {{ vm.book.series.name }}
-                        </div>
+                        <div class="col-md-10"ng-bind= "vm.book.series.name"></div>
                     </div>
                     <div class="row">
                         <div class="col-md-2 book-info-label">
-                            <em translate="CATEGORIES" </em>
+                            <em translate="CATEGORIES"> </em>
                         </div>
                         <div class="col-md-10">
-                            <span ng-repeat="category in vm.book.categories">
-                                {{ category.name }}
+                            <span ng-repeat="category in vm.book.categories" ng-bind="category.name">
                                 <span ng-show="!$last">, </span>
                             </span>
                         </div>
