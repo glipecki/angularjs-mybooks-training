@@ -99,7 +99,47 @@ app.service('CategoryService', ['$http', '$q', function($http, $q) {
 		});
 		return deferred.promise;		
 	}
+}]);
 
+app.service('SeriesService', ['$http', '$q', function($http, $q) {
+	this.getSeries = function() {
+		var deferred = $q.defer();
+		$http.get('/api/series').then(function(response) {
+			deferred.resolve(response.data);
+		}, function(errorResponse) {
+			deferred.reject(errorResponse);
+		});
+		return deferred.promise;	
+	}
+	this.getOneSeries = function(seriesId) {
+		var deferred = $q.defer();
+		$http.get('/api/series/' + seriesId).then(function(response) {
+			deferred.resolve(response.data);
+		}, function(errorResponse) {
+			deferred.reject(errorResponse);
+		});
+		return deferred.promise;	
+	};
+	this.addSeries = function(series) {
+		var deferred = $q.defer();
+		$http.post('/api/series', series).then(function(response) {
+			deferred.resolve(response.data);
+		}, function(errorResponse) {
+			console.log(errorResponse);
+			deferred.reject(errorResponse);
+		});
+		return deferred.promise;		
+	};
+	this.updateSeries = function(series) {
+		var deferred = $q.defer();
+		$http.put('/api/series/' + series.id, series).then(function(response) {
+			deferred.resolve(response.data);
+		}, function(errorResponse) {
+			console.log(errorResponse);
+			deferred.reject(errorResponse);
+		});
+		return deferred.promise;		
+	}
 }]);
 
 
@@ -197,6 +237,34 @@ app.controller('EditCategoryController', ['category', 'CategoryService', '$state
 	this.category = category;
 }]);
 
+app.controller('SeriesListController', ['series', function(series) {
+	this.series = series;
+}]);
+
+app.controller('AddSeriesController', ['SeriesService', '$state', function(seriesService, $state) {
+	this.saveSeries = function() {
+		seriesService.addSeries(this.series).then(function() {
+			$state.go('series-list');
+		}, function() {
+			alert('Błąd dodawania serii :(');
+		})
+	};
+	this.series = {};
+}]);
+
+
+app.controller('EditSeriesController', ['series', 'SeriesService', '$state', function(series, seriesService, $state) {
+	this.saveSeries = function() {
+		seriesService.updateSeries(this.series).then(function() {
+			$state.go('series-list');
+		}, function() {
+			alert('Błąd edycji serii :(');
+		})
+	};
+	this.series = series;
+}]);
+
+
 app.controller('CdOverlayController', ['$rootScope', function($rootScope) {
 	var ctrl = this;
 	this.showSpinner = true;
@@ -274,17 +342,6 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 			}]
 		}
 	});
-	$stateProvider.state('category-details', {
-		url: '/categories/{id:[0-9]+}',
-		templateUrl: 'views/categories/category.details.tpl.html',
-		controller: 'CategoryDetailsController',
-		controllerAs: 'vm',
-		resolve: {
-			category: ['CategoryService', '$stateParams', function(categoryService, $stateParams) {
-				return categoryService.getCategory($stateParams.id);
-			}]
-		}
-	});
 	$stateProvider.state('category-list', {
 		url: '/categories',
 		templateUrl: 'views/categories/category.list.tpl.html',
@@ -306,7 +363,40 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 		url: '/categories/:id/edit',
 		templateUrl: 'views/categories/category.edit.tpl.html',
 		controller: 'EditCategoryController',
+		controllerAs: 'vm',
+		resolve: {
+			category: ['CategoryService', '$stateParams', function(categoryService, $stateParams) {
+				return categoryService.getCategory($stateParams.id);
+			}]
+		}
+	});
+		$stateProvider.state('series-list', {
+		url: '/series',
+		templateUrl: 'views/series/series.list.tpl.html',
+		controller: 'SeriesListController',
+		controllerAs: 'vm',
+		resolve: {
+			series: ['SeriesService', function(seriesService) {
+				return seriesService.getSeries();
+			}]
+		}
+	});
+	$stateProvider.state('series-add', {
+		url: '/series/new',
+		templateUrl: 'views/series/series.edit.tpl.html',
+		controller: 'AddSeriesController',
 		controllerAs: 'vm'
+	});
+	$stateProvider.state('series-edit', {
+		url: '/series/:id/edit',
+		templateUrl: 'views/series/series.edit.tpl.html',
+		controller: 'EditSeriesController',
+		controllerAs: 'vm',
+		resolve: {
+			series: ['SeriesService', '$stateParams', function(seriesService, $stateParams) {
+				return seriesService.getOneSeries($stateParams.id);
+			}]
+		}
 	});
 }]);
 
