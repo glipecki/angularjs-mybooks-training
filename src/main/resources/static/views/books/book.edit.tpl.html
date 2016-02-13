@@ -1,53 +1,53 @@
 <div class="panel panel-default">
-    <div class="panel-heading">Dodaj nową książkę</div>
+    <div class="panel-heading"> {{ 'ADD_NEW_BOOK' | translate }} </div>
     <div class="panel-body">
         <form novalidate name="editBookForm">
             <div class="form-group" ng-class="{
                 'has-error': editBookForm.name.$invalid && !editBookForm.name.$pristine
             }">
-                <label for="name">Nazwa</label>
+                <label for="name">{{ 'BOOK_NAME' | translate }} </label>
                 <input ng-model="vm.book.name" name="name" type="text" class="form-control" placeholder="Podaj nazwę" required />
-                <span class="help-block" ng-show="editBookForm.name.$invalid && !editBookForm.name.$pristine">Musisz podać nazwę książki</span>
+                <span class="help-block" ng-show="editBookForm.name.$invalid && !editBookForm.name.$pristine"> {{ 'BOOK_NAME_REQUIRED' | translate }} </span>
             </div>
             <div class="form-group" ng-class="{
                 'has-error': editBookForm.isbn.$invalid && !editBookForm.isbn.$pristine
             }">
-                <label for="isbn">ISBN</label>
+                <label for="isbn"> {{ 'BOOK_ISBN' | translate }} </label>
                 <input ng-model="vm.book.isbn" name="isbn" type="text" class="form-control" placeholder="Podaj numer ISBN" required />
-                <span class="help-block" ng-show="editBookForm.isbn.$invalid && !editBookForm.isbn.$pristine">Musisz podać poprawny numer ISBN</span>
+                <span class="help-block" ng-show="editBookForm.isbn.$invalid && !editBookForm.isbn.$pristine"> {{ 'ISBN_REQUIRED' | translate }}</span>
             </div>
             <div class="form-group" ng-class="{
                 'has-error': editBookForm.author.$invalid && !editBookForm.author.$pristine
             }">
-                <label for="author">Autor</label>
+                <label for="author"> {{ 'BOOK_AUTHOR' | translate }} </label>
                 <select ng-model="vm.book.author" name="author" ng-options="author as author.name for author in vm.authors" class="form-control" required>
                 </select>
-                <span class="help-block" ng-show="editBookForm.author.$invalid && !editBookForm.author.$pristine">Musisz wybrać autora książki</span>
+                <span class="help-block" ng-show="editBookForm.author.$invalid && !editBookForm.author.$pristine"> {{ 'BOOK_AUTHOR_REQUIRED' | translate }}</span>
             </div>
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" ng-model="vm.createNewAuthor" ng-click="vm.resetAuthor()"/> Dodaj nowego autora
+                    <input type="checkbox" ng-model="vm.createNewAuthor" ng-click="vm.resetAuthor()"/> {{ 'ADD_NEW_AUTHOR' | translate }} 
                 </label>
             </div>
             <div class="form-group" ng-show="vm.createNewAuthor">
-                <label for="authorName">Nazwa autora</label>
+                <label for="authorName">{{ 'AUTHOR_NAME' | translate }} </label>
                 <input ng-model="vm.book.author.name" type="text" placeholder="Podaj nazwę autora" class="form-control" required />
             </div>
             <div class="form-group">
-                <label for="series">Seria</label>
+                <label for="series">{{ 'SERIES' | translate }} </label>
                 <select ng-model="vm.book.series" name="series" ng-options="series as series.name for series in vm.series" class="form-control">
                 </select>
             </div>
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" ng-model="vm.createNewSeries" ng-click="vm.resetSeries()"/> Dodaj nową serię
+                    <input type="checkbox" ng-model="vm.createNewSeries" ng-click="vm.resetSeries()"/> {{ 'ADD_NEW_SERIES' | translate }} 
                 </label>
             </div>
             <div class="form-group" ng-show="vm.createNewSeries">
-                <label for="seriesName">Nazwa serii</label>
+                <label for="seriesName">{{ 'SERIES_NAME' | translate }} </label>
                 <input ng-model="vm.book.series.name" type="text" placeholder="Podaj nazwę serii" class="form-control" />
             </div>
         </form>
-        <button type="button" class="btn btn-success" ng-disabled="editBookForm.$invalid" ng-click="vm.saveBook()">Zapisz książkę</button>
+        <button type="button" class="btn btn-success" ng-disabled="editBookForm.$invalid" ng-click="vm.saveBook()"> {{ 'SAVE_BOOK' | translate }} </button>
     </div>
 </div>

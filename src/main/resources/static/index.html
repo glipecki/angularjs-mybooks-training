@@ -25,27 +25,40 @@
             <div class="container" ng-controller="NavbarController as vm">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">
-                        <i class="fa fa-book"></i> myBooks
+                        <i class="fa fa-book"></i> {{ 'TITLE' | translate }} 
                     </a>
                 </div>
                 <div>
                     <ul class="nav navbar-nav">
                         <li ng-class="{'active': vm.currentNavigationState.name === 'book-list' }">
-                            <a ui-sref='book-list'>Lista książek</a>
+                            <a ui-sref='book-list'> {{ 'BOOK_LIST' | translate }}</a>
                         </li>
                         <li ng-class="{'active': vm.currentNavigationState.name === 'book-add' }">
-                            <a ui-sref="book-add">Dodaj książkę</a>
+                            <a ui-sref="book-add">{{ 'ADD_BOOK' | translate }}</a>
                         </li>
                         <li ng-class="{'active': vm.currentNavigationState.name === 'category-list' }">
-                            <a ui-sref="category-list">Lista kategorii</a>
+                            <a ui-sref="category-list">{{ 'CATEGORY_LIST' | translate }}</a>
                         </li>
                         <li ng-class="{'active': vm.currentNavigationState.name === 'category-add' }">
-                            <a ui-sref="category-add">Dodaj kategorię</a>
+                            <a ui-sref="category-add">{{'ADD_CATEGORY' | translate }}</a>
+                        </li>
+                        <li ng-class="{'active': vm.currentNavigationState.name === 'series-list' }">
+                            <a ui-sref="series-list">{{ 'SERIES_LIST' | translate }}</a>
+                        </li>
+                        <li ng-class="{'active': vm.currentNavigationState.name === 'series-add' }">
+                            <a ui-sref="series-add">{{'ADD_SERIES' | translate }}</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
+        <div class="container" ng-controller="LanguageController as vm">
+                <ul id="languages">
+                    <li ng-repeat="language in vm.languages" ng-class="{'current': vm.current === language}">
+                        <a href="" ng-click="vm.select(language)"> {{ language | uppercase }}</a>
+                    </li>
+                </ul>
+        </div>
         <div id="content">
             <div class="container">
                 <div class="row">
@@ -61,10 +74,12 @@
 <script type="text/javascript" src="libs/bootstrap-3.3.6/js/bootstrap.js"></script>
 <script type="text/javascript" src="libs/angular-1.4.8.js"></script>
 <script type="text/javascript" src="libs/angular-ui-router-0.2.15.js"></script>
-<script type="text/javascript" src="app.js"></script>
-<script type="text/javascript" src="app-book.js"></script>
-<script type="text/javascript" src="app-category.js"></script>
-<script type="text/javascript" src="app-author.js"></script>
-<script type="text/javascript" src="app-series.js"></script>
-<script type="text/javascript" src="app-routing.js"></script>
+<script type="text/javascript" src="libs/angular-translate-1.5.0.js"></script>
+<script type="text/javascript" src="scripts/app.js"></script>
+<script type="text/javascript" src="scripts/app-book.js"></script>
+<script type="text/javascript" src="scripts/app-category.js"></script>
+<script type="text/javascript" src="scripts/app-author.js"></script>
+<script type="text/javascript" src="scripts/app-series.js"></script>
+<script type="text/javascript" src="scripts/app-routing.js"></script>
+<script type="text/javascript" src="scripts/translate.js"></script>
 </html>

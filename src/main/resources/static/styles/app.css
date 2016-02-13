@@ -30,3 +30,25 @@ img.book-cover {
 h3.book-title {
     margin-top: 0px;
 }
+
+#languages li {
+    list-style: outside none none;
+    float: left;
+}
+
+#languages a {
+    color: #b6b6b6;
+    display: block;
+    font-size: 13px;
+    padding: 4px;
+    text-decoration: none;
+}
+
+#languages .current a {
+    background: #d9d9d9 none repeat scroll 0 0;
+    color: #939393;
+}
+
+#languages a:hover {
+    background: #eaeaea none repeat scroll 0 0;
+}

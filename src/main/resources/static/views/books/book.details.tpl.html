@@ -14,7 +14,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 book-info-label">
-                            <em> ISBN </em>
+                            <em> {{ 'BOOK_ISBN' | translate }}  </em>
                         </div>
                         <div class="col-md-10">
                             <em> {{ vm.book.isbn }} </em>
@@ -22,7 +22,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 book-info-label">
-                            <em> Autor </em>
+                            <em> {{ 'BOOK_AUTHOR' | translate }}  </em>
                         </div>
                         <div class="col-md-10">
                             {{ vm.book.author.name }}
@@ -30,7 +30,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 book-info-label">
-                            <em> Seria </em>
+                            <em> {{ 'SERIES' | translate }}  </em>
                         </div>
                         <div class="col-md-10">
                             {{ vm.book.series.name }}
@@ -38,7 +38,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 book-info-label">
-                            <em> Kategorie </em>
+                            <em> {{ 'CATEGORIES' | translate }} </em>
                         </div>
                         <div class="col-md-10">
                             <span ng-repeat="category in vm.book.categories">
@@ -49,7 +49,7 @@
                     </div> 
                 </div>
                 <div class="col-md-2">
-                    <a ui-sref="book-edit({id: vm.book.id})"> Edytuj </a>
+                    <a ui-sref="book-edit({id: vm.book.id})"> {{ 'EDIT' | translate }} </a>
                 </div>
             </div>
         </div>

@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="input-group">
-            <input ng-model="vm.currentFilter" type="text" class="form-control" placeholder="Filtruj kategorie" />
+            <input ng-model="vm.currentFilter" type="text" class="form-control" placeholder="{{ 'FILTER_CATEGORIES' | translate }}" />
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-search"></span>
             </span>
@@ -11,6 +11,6 @@
 <ul class="list-group">
     <li class="list-group-item" ng-repeat="category in vm.categories | filter:{ name: vm.currentFilter}">
         {{ category.name }}
-        <a ui-sref="category-edit({id: category.id})"> Edytuj </a>
+        <a ui-sref="category-edit({id: category.id})"> {{ 'EDIT' | translate }} </a>
     </li>
 </ul>

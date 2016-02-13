@@ -1,7 +1,7 @@
 /**
 * App module
 */
-var app = angular.module('mybooks', ['ui.router']);
+var app = angular.module('mybooks', ['ui.router', 'pascalprecht.translate']);
 
 /**
 * Controllers

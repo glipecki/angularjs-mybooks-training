@@ -1,4 +1,4 @@
-app = angular.module('mybooks');
+var app = angular.module('mybooks');
 
 app.service('CategoryService', ['$http', '$q', function($http, $q) {
 	this.getCategories = function() {

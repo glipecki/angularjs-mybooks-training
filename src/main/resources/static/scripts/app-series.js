@@ -1,4 +1,4 @@
-app = angular.module('mybooks');
+var app = angular.module('mybooks');
 
 
 app.service('SeriesService', ['$http', '$q', function($http, $q) {

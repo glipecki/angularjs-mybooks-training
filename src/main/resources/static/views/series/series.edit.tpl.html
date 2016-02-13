@@ -1,15 +1,15 @@
 <div class="panel panel-default">
-    <div class="panel-heading">Dodaj nową serię</div>
+    <div class="panel-heading">{{ 'ADD_SERIES' | translate }}</div>
     <div class="panel-body">
         <form novalidate name="editSeriesForm">
             <div class="form-group" ng-class="{
                 'has-error': editSeriesForm.name.$invalid && !editSeriesForm.name.$pristine
             }">
-                <label for="name">Nazwa</label>
-                <input ng-model="vm.series.name" name="name" type="text" class="form-control" placeholder="Podaj nazwę" required />
-                <span class="help-block" ng-show="editSeriesForm.name.$invalid && !editSeriesForm.name.$pristine">Musisz podać nazwę serii</span>
+                <label for="name">{{ 'NAME' | translate }}</label>
+                <input ng-model="vm.series.name" name="name" type="text" class="form-control" placeholder= "{{ 'NAME_REQUIRED' | translate }}" required />
+                <span class="help-block" ng-show="editSeriesForm.name.$invalid && !editSeriesForm.name.$pristine">{{ 'SERIES_NAME_REQUIRED' | translate }}</span>
             </div>
         </form>
-        <button type="button" class="btn btn-success" ng-disabled="editSeriesForm.$invalid" ng-click="vm.saveSeries()">Zapisz serię</button>
+        <button type="button" class="btn btn-success" ng-disabled="editSeriesForm.$invalid" ng-click="vm.saveSeries()"> {{ 'SAVE_SERIES' | translate }}</button>
     </div>
 </div>
