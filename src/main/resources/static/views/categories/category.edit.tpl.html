@@ -1,15 +1,15 @@
 <div class="panel panel-default">
-    <div class="panel-heading"> {{ 'ADD_CATEGORY' | translate }} </div>
+    <div class="panel-heading" translate = "ADD_CATEGORY"> </div>
     <div class="panel-body">
         <form novalidate name="editCategoryForm">
             <div class="form-group" ng-class="{
                 'has-error': editCategoryForm.name.$invalid && !editCategoryForm.name.$pristine
             }">
-                <label for="name">{{ 'NAME' | translate }} </label>
+                <label for="name" translate="NAME" </label>
                 <input ng-model="vm.category.name" name="name" type="text" class="form-control" placeholder="{{ 'ENTER_NAME' | translate }}" required />
-                <span class="help-block" ng-show="editCategoryForm.name.$invalid && !editCategoryForm.name.$pristine">{{ 'CATEGORY_NAME_REQUIRED' | translate }}</span>
+                <span class="help-block" ng-show="editCategoryForm.name.$invalid && !editCategoryForm.name.$pristine" translate="CATEGORY_NAME_REQUIRED"</span>
             </div>
         </form>
-        <button type="button" class="btn btn-success" ng-disabled="editCategoryForm.$invalid" ng-click="vm.saveCategory()">{{ 'SAVE_CATEGORY' | translate }} </button>
+        <button type="button" class="btn btn-success" ng-disabled="editCategoryForm.$invalid" ng-click="vm.saveCategory()" translate="SAVE_CATEGORY"> </button>
     </div>
 </div>

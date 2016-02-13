@@ -11,6 +11,6 @@
 <ul class="list-group">
     <li class="list-group-item" ng-repeat="category in vm.categories | filter:{ name: vm.currentFilter}">
         {{ category.name }}
-        <a ui-sref="category-edit({id: category.id})"> {{ 'EDIT' | translate }} </a>
+        <a ui-sref="category-edit({id: category.id})" translate="EDIT"> </a>
     </li>
 </ul>

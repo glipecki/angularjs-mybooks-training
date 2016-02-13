@@ -31,22 +31,22 @@
                 <div>
                     <ul class="nav navbar-nav">
                         <li ng-class="{'active': vm.currentNavigationState.name === 'book-list' }">
-                            <a ui-sref='book-list'> {{ 'BOOK_LIST' | translate }}</a>
+                            <a ui-sref='book-list' translate="BOOK_LIST"></a>
                         </li>
                         <li ng-class="{'active': vm.currentNavigationState.name === 'book-add' }">
-                            <a ui-sref="book-add">{{ 'ADD_BOOK' | translate }}</a>
+                            <a ui-sref="book-add" translate="ADD_BOOK"></a>
                         </li>
                         <li ng-class="{'active': vm.currentNavigationState.name === 'category-list' }">
-                            <a ui-sref="category-list">{{ 'CATEGORY_LIST' | translate }}</a>
+                            <a ui-sref="category-list" translate="CATEGORY_LIST"></a>
                         </li>
                         <li ng-class="{'active': vm.currentNavigationState.name === 'category-add' }">
-                            <a ui-sref="category-add">{{'ADD_CATEGORY' | translate }}</a>
+                            <a ui-sref="category-add" translate="ADD_CATEGORY"></a>
                         </li>
                         <li ng-class="{'active': vm.currentNavigationState.name === 'series-list' }">
-                            <a ui-sref="series-list">{{ 'SERIES_LIST' | translate }}</a>
+                            <a ui-sref="series-list" translate="SERIES_LIST"></a>
                         </li>
                         <li ng-class="{'active': vm.currentNavigationState.name === 'series-add' }">
-                            <a ui-sref="series-add">{{'ADD_SERIES' | translate }}</a>
+                            <a ui-sref="series-add" translate="ADD_SERIES"></a>
                         </li>
                     </ul>
                 </div>

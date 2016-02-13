@@ -19,12 +19,13 @@ app.config(['$translateProvider', function ($translateProvider) {
     ISBN_REQUIRED: 'Musisz podać poprawny ISBN',
     FILTER_BOOKS: 'Filtruj książki',
     SAVE_BOOK: 'Zapisz książkę',
+    BOOK_ADDED_SUCCESS: 'Książka została dodana',
     
     ADD_AUTHOR: 'Dodaj autora',
     ADD_NEW_AUTHOR: 'Dodaj nowego autora',
     AUTHOR_NAME: 'Nazwa autora',
     BOOK_AUTHOR_REQUIRED: 'Musisz podać autora książki',
-     
+    ENTER_AUTHOR: 'Podaj nazwę autora', 
     
     ADD_SERIES: 'Dodaj serię',
     ADD_NEW_SERIES: 'Dodaj nową serię',
@@ -33,6 +34,7 @@ app.config(['$translateProvider', function ($translateProvider) {
     SERIES_NAME_REQUIRED: 'Musisz podać nazwę serii',
     FILTER_SERIES:'Filtruj serie',
     SAVE_SERIES: 'Zapisz serię',
+    ENTER_SERIES: 'Podaj nazwę serii',
 
     CATEGORIES: 'Kategorie',
     ADD_CATEGORY: 'Dodaj nową kategorię',
@@ -63,11 +65,13 @@ app.config(['$translateProvider', function ($translateProvider) {
     ISBN_REQUIRED: 'Incorrect ISBN',
     FILTER_BOOKS: 'Filter books',
     SAVE_BOOK: 'Save book',
-    
+    BOOK_ADDED_SUCCESS: 'Book has been added',
+
     ADD_AUTHOR: 'Add author',
     ADD_NEW_AUTHOR: 'Add new author',
     AUTHOR_NAME: 'Author name',
     BOOK_AUTHOR_REQUIRED: 'You have to add author name',
+    ENTER_AUTHOR: 'Enter author',
      
     
     ADD_SERIES: 'Add series',
@@ -77,6 +81,7 @@ app.config(['$translateProvider', function ($translateProvider) {
     SERIES_NAME_REQUIRED: 'You have to add series name',
     FILTER_SERIES:'Filter series',
     SAVE_SERIES: 'Save series',
+    ENTER_SERIES: 'Enter series',
 
     CATEGORIES: 'Categories',
     ADD_CATEGORY: 'Add new category',
