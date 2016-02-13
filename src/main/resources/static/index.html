@@ -19,9 +19,10 @@
 </head>
 
 <body>
+    <div cd-overlay></div>
     <div>
         <nav class="navbar navbar-default">
-            <div class="container">
+            <div class="container" ng-controller="NavbarController as vm">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">
                         <i class="fa fa-book"></i> myBooks
@@ -29,11 +30,17 @@
                 </div>
                 <div>
                     <ul class="nav navbar-nav">
-                        <li>
-                            <a>Lista książek</a>
+                        <li ng-class="{'active': vm.currentNavigationState.name === 'book-list' }">
+                            <a ui-sref='book-list'>Lista książek</a>
                         </li>
-                        <li>
-                            <a>Dodaj książkę</a>
+                        <li ng-class="{'active': vm.currentNavigationState.name === 'book-add' }">
+                            <a ui-sref="book-add">Dodaj książkę</a>
+                        </li>
+                        <li ng-class="{'active': vm.currentNavigationState.name === 'category-list' }">
+                            <a ui-sref="category-list">Lista kategorii</a>
+                        </li>
+                        <li ng-class="{'active': vm.currentNavigationState.name === 'category-add' }">
+                            <a ui-sref="category-add">Dodaj kategorię</a>
                         </li>
                     </ul>
                 </div>
@@ -43,10 +50,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <div></div>
+                        <div ui-view> </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 </body>
 <script type="text/javascript" src="libs/jquery-2.2.0.js"></script>
 <script type="text/javascript" src="libs/bootstrap-3.3.6/js/bootstrap.js"></script>
