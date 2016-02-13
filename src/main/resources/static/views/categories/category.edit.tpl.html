@@ -5,7 +5,7 @@
             <div class="form-group" ng-class="{
                 'has-error': editCategoryForm.name.$invalid && !editCategoryForm.name.$pristine
             }">
-                <label for="name" translate="NAME" </label>
+                <label for="name"> {{ 'NAME' | translate }} </label>
                 <input ng-model="vm.category.name" name="name" type="text" class="form-control" placeholder="{{ 'ENTER_NAME' | translate }}" required />
                 <span class="help-block" ng-show="editCategoryForm.name.$invalid && !editCategoryForm.name.$pristine" translate="CATEGORY_NAME_REQUIRED"</span>
             </div>

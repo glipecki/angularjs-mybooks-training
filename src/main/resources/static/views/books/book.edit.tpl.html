@@ -48,6 +48,22 @@
                 <label for="seriesName">{{ 'SERIES_NAME' | translate }} </label>
                 <input ng-model="vm.book.series.name" type="text" placeholder="{{ 'ENTER_SERIES' | translate }} " class="form-control" />
             </div>
+            <div class="form-group">
+                <label for="category" translate="CATEGORIES"> </label>
+                <select ng-model="vm.book.categories" name="category" ng-options="category as category.name for category in vm.categories" class="form-control">
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="vm.createNewCategories" /> {{ 'ADD_NEW_CATEGORIES' | translate }} 
+                </label>
+            </div>
+            <div class="form-group" ng-show="vm.createNewSeries">
+                <label for="seriesName">{{ 'CATEGORY_NAME' | translate }} </label>
+                <input ng-model="vm.book.series.name" type="text" placeholder="{{ 'ENTER_CATEGORY' | translate }} " class="form-control" />
+            </div>
+
         </form>
         <button type="button" class="btn btn-success" ng-disabled="editBookForm.$invalid" ng-click="vm.saveBook()" translate="SAVE_BOOK"> </button>
     </div>

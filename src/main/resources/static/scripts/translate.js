@@ -51,7 +51,7 @@ app.config(['$translateProvider', function ($translateProvider) {
   $translateProvider.translations('en', {
     TITLE: 'myBooks',
     BOOK_LIST: 'List of books',
-    CATEGORY_LIST: 'List of category',
+    CATEGORY_LIST: 'List of categories',
     SERIES_LIST: 'List of series',
 
     ADD_BOOK: 'Add book',
