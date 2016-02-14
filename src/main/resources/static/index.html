@@ -49,16 +49,16 @@
                             <a ui-sref="series-add" translate="ADD_SERIES"></a>
                         </li>
                     </ul>
+                    <div class="language-container" ng-controller="LanguageController as vm">
+                        <ul id="languages">
+                            <li ng-repeat="language in vm.languages" ng-class="{'current': vm.current === language}">
+                                <a href="" ng-click="vm.select(language)"> {{ language | uppercase }}</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
-        <div class="container" ng-controller="LanguageController as vm">
-                <ul id="languages">
-                    <li ng-repeat="language in vm.languages" ng-class="{'current': vm.current === language}">
-                        <a href="" ng-click="vm.select(language)"> {{ language | uppercase }}</a>
-                    </li>
-                </ul>
-        </div>
         <toast class="toast-message"></toast>
         <div id="content">
             <div class="container">

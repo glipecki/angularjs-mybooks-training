@@ -37,9 +37,7 @@
                             <em translate="CATEGORIES"> </em>
                         </div>
                         <div class="col-md-10">
-                            <span ng-repeat="category in vm.book.categories" ng-bind="category.name">
-                                <span ng-show="!$last">, </span>
-                            </span>
+                            <span ng-repeat="category in vm.book.categories">{{category.name}}<span ng-show="!$last">, </span></span>
                         </div>
                     </div> 
                 </div>

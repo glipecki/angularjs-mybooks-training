@@ -43,10 +43,13 @@ app.config(['$translateProvider', function ($translateProvider) {
     CATEGORY_NAME_REQUIRED: 'Musisz podać nazwę kategorii',
     CATEGORY_NAME: 'Nazwa kategorii',
     FILTER_CATEGORIES:'Filtruj kategorie',
+    ADD_NEW_CATEGORIES: 'Dodaj nowe kategorie',
+    ENTER_CATEGORY_NAME: 'Wprowadź nazwę kategorii',
 
     NAME: 'Nazwa',
     ENTER_NAME: 'Podaj nazwę',
-    EDIT: 'Edytuj'
+    EDIT: 'Edytuj',
+    ENTER: 'Wprowadź'
   });
   $translateProvider.translations('en', {
     TITLE: 'myBooks',
@@ -90,10 +93,13 @@ app.config(['$translateProvider', function ($translateProvider) {
     CATEGORY_NAME_REQUIRED: 'You have to add category name',
     CATEGORY_NAME: 'Category name',
     FILTER_CATEGORIES:'Filter category',
+    ADD_NEW_CATEGORIES: 'Add new categories',
+    ENTER_CATEGORY_NAME: 'Enter category name',
 
     NAME: 'Name',
     ENTER_NAME: 'Enter name',
-    EDIT: 'Edit'
+    EDIT: 'Edit',
+    ENTER: 'Enter'
   });
 
   $translateProvider.preferredLanguage('pl');

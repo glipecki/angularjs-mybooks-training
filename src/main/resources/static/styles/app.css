@@ -11,7 +11,7 @@
 
     top: 30%;
     left: 50%;
-    position: absolute;;
+    position: absolute;
 }
 
 div.book-cover {
@@ -29,6 +29,12 @@ img.book-cover {
 
 h3.book-title {
     margin-top: 0px;
+}
+
+.language-container {
+    padding-bottom: 15px;
+    padding-top: 15px;
+    float:right;
 }
 
 #languages li {
@@ -57,6 +63,9 @@ h3.book-title {
     list-style: outside none none;
 }
 
+.category-list {
+    list-style: outside none none;   
+}
 .animate-enter, 
 .animate-leave
 { 
