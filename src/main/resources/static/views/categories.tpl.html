@@ -1,0 +1,15 @@
+<div id="categories" class="form-group">
+    <input type="checkbox" ng-model="vmc.debug" ng-click="clearAuthor()"/>Debug
+    <pre ng-show="vmc.debug"> {{ vmc | json}}</pre>
+    <label for="categories">Kategorie</label>
+    <div ng-repeat="category in vmc.categories">
+    {{ category.name }} 
+    </div>
+    
+    <select name="category" class="form-control" required ng-model="vmc.selectedCategory" ng-options="category.name for category in vmc.allCategories track by category.id">
+    </select>
+    <button type="button" class="btn btn-success" ng-click="vmc.addSelectedCategory()">Dodaj</button>
+    
+    <input name="typedCategoryName" ng-model="vmc.typedCategoryName" type="text" placeholder="Podaj nazwę kategorii" class="form-control"/>
+    <button type="button" class="btn btn-success" ng-click="vmc.addNewCategory()">Dodaj</button>
+</div>

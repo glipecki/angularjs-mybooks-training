@@ -34,6 +34,8 @@
                 <label for="authorName">Nazwa autora</label>
                 <input name="typedName" type="text" placeholder="Podaj nazwę autora" class="form-control" required ng-model="vm.typedAuthor"/>
                 <span class="help-block" ng-show="editBookForm.typedName.$invalid && !editBookForm.typedName.$pristine">Musisz podać autora książki</span>
+             </div>
+            <div id="categories" datasource="vm.book.categories" x-cd-categories>
             </div>
         </form>
         <button type="button" class="btn btn-success" ng-click="addBook()" ng-disabled="editBookForm.$invalid">Zapisz</button>

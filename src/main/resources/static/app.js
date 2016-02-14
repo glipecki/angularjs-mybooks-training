@@ -89,6 +89,65 @@ myApp.controller('BookAddController', function($scope, $state, authors, book, Bo
         }
 });
 
+myApp.controller('CdOverlayController', ['$rootScope', function($rootScope) {
+    var ctrl = this;
+    this.showSpinner = true;
+    
+    $rootScope.$on('$stateChangeStart', function() {
+        ctrl.showSpinner = true;
+    });
+    $rootScope.$on('$stateChangeSuccess', function() {
+        ctrl.showSpinner = false;
+    });
+        $rootScope.$on('$stateChangeError', function() {
+        ctrl.showSpinner = false;
+    });
+}]);
+
+myApp.controller('CdCategoriesController', ['CategoryResource', '$scope', function(categoriesRes, $scope) {
+    var ctrl = this;
+    this.categories = $scope.datasource;
+    this.allCategories = categoriesRes.query();
+    this.addNewCategory = function() {
+        cat = { name: this.typedCategoryName };
+        categoriesRes.save(cat, function() {
+            // on success
+            ctrl.allCategories.push(cat);
+            ctrl.typedCategoryName="";
+        }, function() {
+            // on failure
+        })
+    };
+    this.addSelectedCategory = function() {
+        ctrl.categories.push(ctrl.selectedCategory);
+    };
+            
+
+}]);
+
+myApp.directive('cdOverlay', function() {
+    return {
+        restrict: 'AE',
+        replace: true,
+        templateUrl: 'views/overlay.tpl.html',
+        controller: 'CdOverlayController',
+        controllerAs: 'vm'
+    };
+});
+
+myApp.directive('cdCategories', function() {
+    return {
+        restrict: 'AE',
+        scope: {
+            datasource: '='
+        },
+        replace: true,
+        templateUrl: 'views/categories.tpl.html',
+        controller: 'CdCategoriesController',
+        controllerAs: 'vmc'
+    };
+});
+
 myApp.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise("/books");
   $stateProvider
