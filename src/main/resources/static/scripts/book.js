@@ -119,10 +119,12 @@ app.controller('AddBookController', ['authors', 'series', 'categories', 'BookSer
 		bookService.addBook(this.book, this.newCategories).then(function() {
 			$state.go('book-list');
 			ngToast.success({
-  				content: 'BOOK_ADDED_SUCCESS'
+  				content: 'BOOK_ADD_SUCCESS'
 			});
 		}, function() {
-			alert('Błąd dodawania książki :(');
+			ngToast.danger({
+  				content: 'BOOK_ADD_ERROR'
+			});
 		})
 	};
 	this.resetAuthor = function() {
@@ -169,8 +171,13 @@ app.controller('EditBookController', ['authors', 'series', 'categories', 'book',
 	this.saveBook = function() {
 		bookService.updateBook(this.book, this.newCategories).then(function() {
 			$state.go('book-list');
+			ngToast.success({
+  				content: 'BOOK_EDIT_SUCCESS'
+			});
 		}, function() {
-			alert('Błąd edycji książki :(');
+			gToast.danger({
+  				content: 'BOOK_EDIT_ERROR'
+			});
 		})
 	};
 	this.resetAuthor = function() {

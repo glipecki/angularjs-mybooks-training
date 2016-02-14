@@ -46,24 +46,34 @@ app.controller('SeriesListController', ['series', function(series) {
 	this.series = series;
 }]);
 
-app.controller('AddSeriesController', ['SeriesService', '$state', function(seriesService, $state) {
+app.controller('AddSeriesController', ['SeriesService', '$state', 'ngToast', function(seriesService, $state, ngToast) {
 	this.saveSeries = function() {
 		seriesService.addSeries(this.series).then(function() {
 			$state.go('series-list');
+			ngToast.success({
+  				content: 'SERIES_ADD_SUCCESS'
+			});
 		}, function() {
-			alert('Błąd dodawania serii :(');
+			ngToast.danger({
+  				content: 'SERIES_ADD_ERROR'
+			});
 		})
 	};
 	this.series = {};
 }]);
 
 
-app.controller('EditSeriesController', ['series', 'SeriesService', '$state', function(series, seriesService, $state) {
+app.controller('EditSeriesController', ['series', 'SeriesService', '$state', 'ngToast', function(series, seriesService, $state, ngToast) {
 	this.saveSeries = function() {
 		seriesService.updateSeries(this.series).then(function() {
 			$state.go('series-list');
+			ngToast.success({
+  				content: 'SERIES_EDIT_SUCCESS'
+			});
 		}, function() {
-			alert('Błąd edycji serii :(');
+			ngToast.danger({
+  				content: 'SERIES_EDIT_ERROR'
+			});
 		})
 	};
 	this.series = series;

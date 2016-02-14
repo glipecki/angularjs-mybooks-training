@@ -51,24 +51,34 @@ app.controller('CategoryListController', ['categories', function(categories) {
 }]);
 
 
-app.controller('AddCategoryController', ['CategoryService', '$state', function(categoryService, $state) {
+app.controller('AddCategoryController', ['CategoryService', '$state',  'ngToast', function(categoryService, $state, ngToast) {
 	this.saveCategory = function() {
 		categoryService.addCategory(this.category).then(function() {
 			$state.go('category-list');
+			ngToast.success({
+  				content: 'CATEGORY_ADD_SUCCESS'
+			});
 		}, function() {
-			alert('Błąd dodawania kategorii :(');
+			ngToast.danger({
+  				content: 'CATEGORY_EDIT_ERROR'
+			});
 		})
 	};
 	this.category = {};
 }]);
 
 
-app.controller('EditCategoryController', ['category', 'CategoryService', '$state', function(category, categoryService, $state) {
+app.controller('EditCategoryController', ['category', 'CategoryService', '$state', 'ngToast', function(category, categoryService, $state, ngToast) {
 	this.saveCategory = function() {
 		categoryService.updateCategory(this.category).then(function() {
 			$state.go('category-list');
+			ngToast.success({
+  				content: 'CATEGORY_EDIT_SUCCESS'
+			});
 		}, function() {
-			alert('Błąd edycji kategorii :(');
+			ngToast.danger({
+  				content: 'CATEGORY_EDIT_ERROR'
+			});
 		})
 	};
 	this.category = category;
