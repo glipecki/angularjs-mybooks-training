@@ -7,7 +7,7 @@
             }">
                 <label for="name"> {{ 'NAME' | translate }} </label>
                 <input ng-model="vm.category.name" name="name" type="text" class="form-control" placeholder="{{ 'ENTER_NAME' | translate }}" required />
-                <span class="help-block" ng-show="editCategoryForm.name.$invalid && !editCategoryForm.name.$pristine" translate="CATEGORY_NAME_REQUIRED"</span>
+                <span class="help-block validation-animation" ng-show="editCategoryForm.name.$invalid && !editCategoryForm.name.$pristine" translate="CATEGORY_NAME_REQUIRED"</span>
             </div>
         </form>
         <button type="button" class="btn btn-success" ng-disabled="editCategoryForm.$invalid" ng-click="vm.saveCategory()" translate="SAVE_CATEGORY"> </button>

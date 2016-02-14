@@ -22,7 +22,7 @@
                 <label for="author" translate="BOOK_AUTHOR"> </label>
                 <select ng-model="vm.book.author" name="author" ng-options="author as author.name for author in vm.authors" class="form-control" required>
                 </select>
-                <span class="help-block" ng-show="editBookForm.author.$invalid && !editBookForm.author.$pristine" translate="BOOK_AUTHOR_REQUIRED"</span>
+                <span class="help-block validation-animation" ng-show="editBookForm.author.$invalid && !editBookForm.author.$pristine" translate="BOOK_AUTHOR_REQUIRED"</span>
             </div>
             <div class="checkbox">
                 <label>
