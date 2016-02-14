@@ -9,7 +9,7 @@
     </div>
 </div>
 <ul class="list-group">
-    <li animate="'animate'" class="list-group-item" ng-repeat="book in vm.books | filter:vm.currentFilter">
+    <li class="list-group-item filter-animation" ng-repeat="book in vm.books | filter:vm.currentFilter">
         <a ui-sref="book-details({id: book.id})" ng-bind="book.name"> (<em ng-bind="book.author.name"> </em>)</a>
     </li>
 </ul>

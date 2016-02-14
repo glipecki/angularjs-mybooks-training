@@ -7,14 +7,14 @@
             }">
                 <label for="name" translate="BOOK_NAME"> </label>
                 <input ng-model="vm.book.name" name="name" type="text" class="form-control" placeholder="{{ 'ENTER_NAME' | translate }}" required />
-                <span class="help-block" ng-show="editBookForm.name.$invalid && !editBookForm.name.$pristine" translate="BOOK_NAME_REQUIRED" }} </span>
+                <span class="help-block validation-animation" ng-show="editBookForm.name.$invalid && !editBookForm.name.$pristine" translate="BOOK_NAME_REQUIRED" }} </span>
             </div>
             <div class="form-group" ng-class="{
                 'has-error': editBookForm.isbn.$invalid && !editBookForm.isbn.$pristine
             }">
                 <label for="isbn" translate="BOOK_ISBN"> </label>
-                <input ng-model="vm.book.isbn" name="isbn" type="text" class="form-control" placeholder="{{ 'ENTER_ISBN' | translate }}" required />
-                <span class="help-block" ng-show="editBookForm.isbn.$invalid && !editBookForm.isbn.$pristine" translate="ISBN_REQUIRED"></span>
+                <input ng-model="vm.book.isbn" name="isbn" type="text" class="form-control" placeholder="{{ 'ENTER_ISBN' | translate }}" isbn-format required />
+                <span class="help-block validation-animation" ng-show="editBookForm.isbn.$error.isbnFormat" && editBookForm.isbn.$touched" translate="ISBN_REQUIRED"></span>
             </div>
             <div class="form-group" ng-class="{
                 'has-error': editBookForm.author.$invalid && !editBookForm.author.$pristine
