@@ -60,6 +60,7 @@ app.controller('AddSeriesController', ['SeriesService', '$state', 'ngToast', fun
 		})
 	};
 	this.series = {};
+	this.title = 'ADD_SERIES';
 }]);
 
 
@@ -77,4 +78,5 @@ app.controller('EditSeriesController', ['series', 'SeriesService', '$state', 'ng
 		})
 	};
 	this.series = series;
+	this.title = 'EDIT_SERIES';
 }]);

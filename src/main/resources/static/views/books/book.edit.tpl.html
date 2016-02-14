@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-    <div class="panel-heading" translate="ADD_NEW_BOOK"> </div>
+    <div class="panel-heading"> {{vm.title | translate}} </div>
     <div class="panel-body">
         <form novalidate name="editBookForm">
             <div class="form-group" ng-class="{
@@ -7,14 +7,15 @@
             }">
                 <label for="name" translate="BOOK_NAME"> </label>
                 <input ng-model="vm.book.name" name="name" type="text" class="form-control" placeholder="{{ 'ENTER_NAME' | translate }}" required />
-                <span class="help-block validation-animation" ng-show="editBookForm.name.$invalid && !editBookForm.name.$pristine" translate="BOOK_NAME_REQUIRED" }} </span>
+                <span class="help-block validation-animation" ng-show="editBookForm.name.$invalid && !editBookForm.name.$pristine" translate="BOOK_NAME_REQUIRED"> </span>
             </div>
             <div class="form-group" ng-class="{
                 'has-error': editBookForm.isbn.$invalid && !editBookForm.isbn.$pristine
             }">
                 <label for="isbn" translate="BOOK_ISBN"> </label>
                 <input ng-model="vm.book.isbn" name="isbn" type="text" class="form-control" placeholder="{{ 'ENTER_ISBN' | translate }}" isbn-format required />
-                <span class="help-block validation-animation" ng-show="editBookForm.isbn.$error.isbnFormat" && editBookForm.isbn.$touched" translate="ISBN_REQUIRED"></span>
+                <span class="help-block validation-animation" ng-show="editBookForm.isbn.$error.isbnFormat && editBookForm.isbn.$touched"
+                    translate="ISBN_REQUIRED"></span>
             </div>
             <div class="form-group" ng-class="{
                 'has-error': editBookForm.author.$invalid && !editBookForm.author.$pristine
@@ -30,7 +31,7 @@
                 </label>
             </div>
             <div class="form-group" ng-show="vm.createNewAuthor">
-                <label for="authorName" translate="AUTHOR_NAME"> </label>
+                <label for="authorName" translate="AUTHORNAME"> </label>
                 <input ng-model="vm.book.author.name" type="text" placeholder="{{ 'ENTER_AUTHOR' | translate }} " class="form-control" required />
             </div>
             <div class="form-group">
@@ -58,10 +59,16 @@
                             </label>
                         </div>            
                     </li>
+                </ul>
+            </div>
+            <div>    
+                <ul>    
                     <li class="category-list" ng-repeat="new in vm.newCategories">
-                        <label>
-                            <input ng-checked="true" ng-click="vm.removeCategory(new)" type="checkbox" /> {{ new }} 
-                        </label>
+                        <div class="checkbox">
+                            <label>
+                                <input ng-checked="true" ng-click="vm.removeCategory(new)" type="checkbox" /> {{ new }} 
+                            </label>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -73,7 +80,7 @@
             <div class="form-group" ng-show="vm.createNewCategories">
                 <label for="categoryName">{{ 'CATEGORY_NAME' | translate }} </label>
                 <div class="form-group">
-                    <input type="text" ng-model="vm.newCategory" placeholder="{{ 'ENTER_CATEGORY_NAME' | translate }} " />
+                    <input type="text" name="categoryName" ng-model="vm.newCategory" placeholder="{{ 'ENTER_CATEGORY_NAME' | translate }} " />
                     <button type="button" class="btn btn-success"  ng-disabled="!vm.newCategory.length" ng-click="vm.addCategory(vm.newCategory); vm.newCategory=''" translate="ENTER"/>
                 </div>
             </div>

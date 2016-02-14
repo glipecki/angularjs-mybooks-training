@@ -65,6 +65,7 @@ app.controller('AddCategoryController', ['CategoryService', '$state',  'ngToast'
 		})
 	};
 	this.category = {};
+	this.title = 'ADD_CATEGORY';
 }]);
 
 
@@ -82,4 +83,5 @@ app.controller('EditCategoryController', ['category', 'CategoryService', '$state
 		})
 	};
 	this.category = category;
+	this.title = 'EDIT_CATEGORY';
 }]);

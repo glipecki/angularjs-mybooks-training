@@ -164,6 +164,7 @@ app.controller('AddBookController', ['authors', 'series', 'categories', 'BookSer
 	this.categories = categories;
 	this.newCategories = [];
 	this.book = { categories: []};
+	this.title = 'ADD_NEW_BOOK';
 }]);
 
 app.controller('EditBookController', ['authors', 'series', 'categories', 'book', 'BookService', 'BookCategoriesService', '$state',
@@ -214,6 +215,7 @@ app.controller('EditBookController', ['authors', 'series', 'categories', 'book',
 	this.categories = categories;
 	this.newCategories = [];
 	this.book = book;
+	this.title = 'EDIT_BOOK';
 	
 	if (!this.book.categories) {
 		this.book.categories = [];
@@ -233,4 +235,23 @@ app.controller('EditBookController', ['authors', 'series', 'categories', 'book',
 		}
 	};
 
+}]);
+
+app.filter('filterNameOrAuthorName', ['$filter', function($filter) {
+	return function(list, search) {
+		console.log(search);
+		if (!search || !list) {
+			return list;
+		}
+
+		var searchTerm = search.toLowerCase();
+
+		return list.filter(function(item){
+            var isBookName = item.name.toLowerCase().indexOf(searchTerm) > -1;
+            var isAuthorName = item.author.name.toLowerCase().indexOf(searchTerm) > -1;
+            return isBookName || isAuthorName;
+        });
+	/*	var byBookName = $filter('filter')(list, {'name': search});
+		var byAuthorName = $filter('filter')(list, {'author': {'name' : search}});*/
+	};
 }]);
