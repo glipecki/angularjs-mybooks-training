@@ -128,6 +128,7 @@ app.config(['$translateProvider', function ($translateProvider) {
 
   $translateProvider.preferredLanguage('pl');
   $translateProvider.useSanitizeValueStrategy('escape');
+  $translateProvider.useLocalStorage();
 }]);
 
 
@@ -139,5 +140,5 @@ app.controller('LanguageController', ['$translate',  function($translate) {
     }
   };
   this.languages = ['pl', 'en'];
-  this.current = 'pl';
+  this.current = $translate.use();
 }]);
