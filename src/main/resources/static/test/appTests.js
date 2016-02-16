@@ -61,3 +61,45 @@ describe('Test BookService', function() {
         expect(result.id).toBeDefined();
     }));
 });
+
+describe('Test BookAddController', function() {
+    var $controller;
+    var scope, $state, authors, book, BookService, AuthorsService;
+    
+    beforeEach(function() {
+        module('booksApp'); 
+        
+        module(function($provide) {
+            $provide.service('AuthorsService', AuthorsService);
+        });
+
+        inject(function($injector) {
+            AuthorsService = $injector.get('AuthorsService');
+        });
+    });
+   
+
+   
+    beforeEach(inject(function($rootScope, $controller, _AuthorsService_, _BookService_) {
+        scope = $rootScope.$new();
+        AuthorsService = _AuthorsService_;
+        BookService = _BookService_;
+        authors = {};
+        
+        createController = function() {
+            return $controller('BookAddController', {
+                '$scope': scope
+            });
+        };
+
+    }));
+    
+    it('should clear author should clear author', function() {
+        var controller = createController();
+        controller.book = { author: { name: abc }};
+        scope.clearAuthor();
+        expect(controller.book.author).toBe({});
+    });
+    
+    
+});
