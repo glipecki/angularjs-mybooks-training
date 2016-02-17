@@ -5,6 +5,10 @@
     <link rel="stylesheet" href="libs/font-awesome-4.5.0/css/font-awesome.css" />
     <link rel="stylesheet" href="libs/bootstrap-3.3.6/css/bootstrap.css" />
     <link rel="stylesheet" href="libs/bootstrap-3.3.6/css/bootstrap-theme.css" />
+    <link rel="stylesheet" href="libs/ng-tags-input/ng-tags-input.bootstrap.css" />
+    <link rel="stylesheet" href="libs/ng-tags-input/ng-tags-input.css" />
+    <link rel="stylesheet" type="text/css" href="libs/toastr/angular-toastr.css" />
+    <link rel="stylesheet" type="text/css" href="libs/massautocomplete/massautocomplete.theme.css" />
     <link type="text/css" rel="stylesheet" href="styles/app.css" />
     <style>
         [ng\:cloak],
@@ -18,22 +22,29 @@
     </style>
 </head>
 
-<body>
+<body ng-app="booksApp">
+    <div x-cd-overlay></div>
     <div>
         <nav class="navbar navbar-default">
-            <div class="container">
+            <div class="container" ng-controller="NavigationController as vm">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">
-                        <i class="fa fa-book"></i> myBooks
+                        <i class="fa fa-book"></i> {{'APP_NAME' | translate}}
                     </a>
                 </div>
                 <div>
                     <ul class="nav navbar-nav">
-                        <li>
-                            <a>Lista książek</a>
+                        <li ng-class="{ 'active': vm.currentNavigationState.name === 'bookListState' }">
+                            <a ui-sref="bookListState">{{'BOOKS_LIST' | translate | capitalize}}</a>
                         </li>
-                        <li>
-                            <a>Dodaj książkę</a>
+                        <li  ng-class="{ 'active': vm.currentNavigationState.name === 'addBookState' }">
+                            <a ui-sref="addBookState">{{'ADD_BOOK' | translate | capitalize}}</a>
+                        </li>
+                        <li ng-class="{ 'active': vm.currentNavigationState.name === 'categoriesState' }">
+                            <a ui-sref="categoriesState">{{'CATEGORIES' | translate | capitalize}}</a>
+                        </li>
+                        <li ng-class="{ 'active': vm.currentNavigationState.name === 'seriesState' }">
+                            <a ui-sref="seriesState">{{'SERIES' | translate | capitalize}}</a>
                         </li>
                     </ul>
                 </div>
@@ -41,17 +52,36 @@
         </nav>
         <div id="content">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <div></div>
-                    </div>
-                </div>
+                <div ui-view></div>
             </div>
+        </div>
 </body>
 <script type="text/javascript" src="libs/jquery-2.2.0.js"></script>
 <script type="text/javascript" src="libs/bootstrap-3.3.6/js/bootstrap.js"></script>
 <script type="text/javascript" src="libs/angular-1.4.8.js"></script>
 <script type="text/javascript" src="libs/angular-ui-router-0.2.15.js"></script>
+<script type="text/javascript" src="libs/angular-translate.js"></script>
+<script type="text/javascript" src="libs/ng-tags-input/ng-tags-input.js"></script>
+<script type="text/javascript" src="libs/angular-resource.js"></script>
+<script type="text/javascript" src="libs/toastr/angular-toastr.tpls.js"></script>
+<script type="text/javascript" src="libs/angular-animate.js"></script>
+<script type="text/javascript" src="libs/massautocomplete/massautocomplete.js"></script>
+<script type="text/javascript" src="libs/angular-sanitize.js"></script>
 <script type="text/javascript" src="app.js"></script>
+<script type="text/javascript" src="router.js"></script>
+<script type="text/javascript" src="controllers/book_list_controller.js"></script>
+<script type="text/javascript" src="controllers/book_details_controller.js"></script>
+<script type="text/javascript" src="controllers/book_modify_controller.js"></script>
+<script type="text/javascript" src="controllers/categories_controller.js"></script>
+<script type="text/javascript" src="controllers/series_controller.js"></script>
+<script type="text/javascript" src="controllers/overlay_controller.js"></script>
+<script type="text/javascript" src="services/books_service.js"></script>
+<script type="text/javascript" src="services/category_service.js"></script>
+<script type="text/javascript" src="services/series_service.js"></script>
+<script type="text/javascript" src="services/authors_service.js"></script>
+<script type="text/javascript" src="directives/overlay_directive.js"></script>
+<script type="text/javascript" src="directives/isbn_validation_directive.js"></script>
+<script type="text/javascript" src="filters/base_filters.js"></script>
+<script type="text/javascript" src="translations/translations_provider.js"></script>
 
 </html>

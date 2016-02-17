@@ -1,6 +1,6 @@
 <div class="panel panel-default">
-    <div class="panel-heading">Bohaterowie umierają
-        <em>Matthew Woodring Stover</em>)</div>
+    <div class="panel-heading">{{vm.book.name}}
+        (<em>{{vm.book.author.name}}</em>)</div>
     <div class="panel-body">
         <div class="row">
             <div class="col-md-3 book-cover">
@@ -9,39 +9,44 @@
             <div class="col-md-9">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 class="book-title">Bohaterowie umierają</h3>
+                        <h3 class="book-title">{{vm.book.title}}</h3>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2 book-info-label">
-                        <em>ISBN</em>
+                        <em>{{'ISBN' | translate}}</em>
                     </div>
                     <div class="col-md-10">
-                        9788374801393
+                        {{vm.book.isbn}}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2 book-info-label">
-                        <em>Autor</em>
+                        <em>{{ 'AUTHOR' | translate | capitalize }}</em>
                     </div>
                     <div class="col-md-10">
-                        Matthew Woodring Stover
+                        {{vm.book.author.name}}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2 book-info-label">
-                        <em>Seria</em>
+                        <em>{{'SERIES' | translate | capitalize}}</em>
                     </div>
                     <div class="col-md-10">
-                        Akty Caine'a
+                        {{vm.book.series.name}}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2 book-info-label">
-                        <em>Kategorie</em>
+                        <em>{{'CATEGORIES' | translate | capitalize}}</em>
                     </div>
-                    <div class="col-md-10">
-                        Fantastyka
+                    <div class="col-md-10" ng-repeat="category in vm.book.categories">
+                        {{category.name}}<font ng-show="!$last">,  </font>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 book-info-label">
+                        <button type="button" class="btn btn-success" ui-sref="editBookState({bookId: vm.book.id})">{{'EDIT' | translate}}</button>
                     </div>
                 </div>
             </div>

@@ -1,33 +1,44 @@
 <div class="panel panel-default">
-    <div class="panel-heading">Dodaj nową książkę</div>
+    <div class="panel-heading">{{'ADD_NEW_BOOK_HEADER' | translate}}</div>
     <div class="panel-body">
         <form novalidate name="editBookForm">
-            <div class="form-group">
-                <label for="name">Nazwa</label>
-                <input name="name" type="text" class="form-control" placeholder="Podaj nazwę" required />
-                <span class="help-block">Musisz podać nazwę książki</span>
+            <div class="form-group" ng-class="{'has-error': editBookForm.name.$invalid && !editBookForm.name.$pristine}">
+                <label for="name">{{'NAME' | translate | capitalize}}</label>
+                <input name="name" type="text" class="form-control" placeholder="{{'ADD_NEW_BOOK_NAME_PLACEHOLDER' | translate}}" ng-model="vm.book.name" required />
+                <span class="help-block" ng-show="editBookForm.name.$invalid  && !editBookForm.name.$pristine">{{'ADD_NEW_BOOK_NAME_HELPER' | translate}}</span>
+            </div>
+            <div class="form-group"  ng-class="{'has-error': editBookForm.isbn.$invalid && !editBookForm.isbn.$pristine}">
+                <label for="isbn">{{'ISBN' | translate}}</label>
+                <input name="isbn" type="text" class="form-control" placeholder="{{'ADD_NEW_BOOK_ISBN_PLACEHOLDER' | translate}}" ng-model="vm.book.isbn" ng-model-options="{ 'updateOn': 'blur'}" ng-minlength="10" required isbn-validation/>
+                <span class="help-block" ng-show="editBookForm.isbn.$invalid  && !editBookForm.isbn.$pristine">{{'ADD_NEW_BOOK_ISBN_HELPER' | translate}}</span>
+            </div>
+            <div class="form-group" mass-autocomplete>
+                <label for="series">{{'SERIES' | translate | capitalize}}</label>
+                <input name="series.name" type="text" class="form-control" mass-autocomplete-item="vm.autocomplete_options" placeholder="{{'ADD_NEW_BOOK_SERIES_PLACEHOLDER' | translate}}" ng-model="vm.book.series.name" />
             </div>
             <div class="form-group" >
-                <label for="isbn">ISBN</label>
-                <input name="isbn" type="text" class="form-control" placeholder="Podaj numer ISBN" required />
-                <span class="help-block">Musisz podać poprawny numer ISBN</span>
+                <label for="series">{{'CATEGORIES' | translate | capitalize}}</label>
+                <tags-input ng-model="vm.book.categories" display-property="name" placeholder="{{'ADD_NEW_BOOK_CATEGORY' | translate}}">
+                    <auto-complete source="vm.filteredCategories($query)" select-first-match="false"></auto-complete>
+                </tags-input>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-show="!vm.addNewAuthor" ng-class="{'has-error': editBookForm.author.$invalid && !editBookForm.author.$pristine}">
                 <label for="author">Autor</label>
-                <select name="author" class="form-control" required>
+                <select name="author" class="form-control" ng-options="author as author.name for author in vm.authors track by author.id" ng-model="vm.book.author" required>
                 </select>
-                <span class="help-block">Musisz wybrać autora książki</span>
+                <span class="help-block" ng-show="editBookForm.author.$invalid && !editBookForm.author.$pristine">{{'ADD_NEW_BOOK_AUTHOR_HELPER' | translate}}</span>
             </div>
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" /> Dodaj nowego autora
+                    <input type="checkbox" ng-click="vm.addNewAuthorClicked()" ng-model="vm.addNewAuthor"/> {{'ADD_NEW_BOOK_NEW_AUTHOR_BUTTON' | translate}}
                 </label>
             </div>
-            <div class="form-group" >
-                <label for="authorName">Nazwa autora</label>
-                <input type="text" placeholder="Podaj nazwę autora" class="form-control" required />
+            <div class="form-group" ng-show="vm.addNewAuthor" ng-class="{'has-error': editBookForm.authorName.$invalid && !editBookForm.authorName.$pristine}">
+                <label for="authorName">{{'ADD_NEW_BOOK_NEW_AUTHOR_HEADER' | translate}}</label>
+                <input name="authorName" type="text" placeholder="{{'ADD_NEW_BOOK_NEW_AUTHOR_PLACEHOLDER' | translate}}" class="form-control" ng-model="vm.book.author.name" required />
+                <span class="help-block" ng-show="editBookForm.authorName.$invalid && !editBookForm.authorName.$pristine">{{'ADD_NEW_BOOK_AUTHOR_HELPER' | translate}}</span>
             </div>
         </form>
-        <button type="button" class="btn btn-success">Zapisz</button>
+        <button type="button" class="btn btn-success" ng-disabled="editBookForm.$invalid" ng-click="vm.saveClicked()">{{'SAVE' | translate}}</button>
     </div>
 </div>
