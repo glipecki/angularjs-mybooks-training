@@ -38,6 +38,19 @@ myApp.service('BookService', ['BookResource', '$window', function(res, $window) 
     };
 }]);
 
+myApp.service('SeriesService', ['SeriesResource', '$window', function(res, $window) {
+   onFailure = function() {
+       $window.alert("Błąd podczas operacji na serii");
+   }
+    
+   this.getSeries = function() {
+       return res.query();
+   };
+   this.addSerie = function(serie, onSuccess) {
+       return res.save(serie, onSuccess, onFailure);
+   };
+}]);
+
 myApp.service('AuthorsService', ['AuthorResource', '$window', function(res, $window) {
    onFailure = function() {
        $window.alert("Błąd podczas operacji na autorku");
@@ -62,9 +75,10 @@ myApp.controller('NavbarController', ['CurrentNavigationState', function(state) 
     this.currentNavigationState = state;
 }]);
 
-myApp.controller('BookAddController', function($scope, $state, authors, book, BookService, AuthorsService) {
+myApp.controller('BookAddController', function($scope, $state, authors, book, series, BookService, AuthorsService) {
         this.authors = authors;
         this.book = book;
+        this.series = series;
         var ref = this;
         $scope.addBook = function() {
             if (ref.isAddNewAuthor) {
@@ -119,8 +133,33 @@ myApp.controller('CdCategoriesController', ['CategoryResource', '$scope', functi
         })
     };
     this.addSelectedCategory = function() {
-        ctrl.categories.push(ctrl.selectedCategory);
+        var ctrlCategories = ctrl.categories;
+        ctrl.selectedCategory.forEach(function (cat) {
+            found = 0;
+            for(var i = ctrlCategories.length-1; i--;) {
+	           if (ctrlCategories[i].id === cat.id) {
+                 found = 1;
+                 break;
+               }
+            }
+            if (found==0) {
+                ctrlCategories.push(cat);
+            }
+        });
     };
+    
+    this.removeSelectedCategory = function() {
+        var ctrlCategories = ctrl.categories;
+        ctrl.selectedCategory.forEach(function (cat) {
+            for(var i = ctrlCategories.length-1; i--;) {
+	           if (ctrlCategories[i].id === cat.id) {
+                 ctrlCategories.splice(i, 1);
+               }
+            }
+
+        });
+        
+    }
             
 
 }]);
@@ -169,6 +208,7 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
       controllerAs: 'vm',
       resolve: {
         authors: ['AuthorsService', function(authorService) { return authorService.getAuthors(); }], 
+        series: ['SeriesService', function(seriesService) { return seriesService.getSeries(); }], 
         book: ['BookService', '$stateParams', function(bookService, $stateParams) { return bookService.getBook($stateParams.id); }]
       }
     })
@@ -179,6 +219,7 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
       controllerAs: 'vm',
       resolve: {
         authors: ['AuthorsService', function(authorService) { return authorService.getAuthors(); }],
+        series: ['SeriesService', function(seriesService) { return seriesService.getSeries(); }], 
         book: function() { return {}; }
           
       }

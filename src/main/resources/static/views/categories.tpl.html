@@ -1,15 +1,20 @@
 <div id="categories" class="form-group">
-    <input type="checkbox" ng-model="vmc.debug" ng-click="clearAuthor()"/>Debug
-    <pre ng-show="vmc.debug"> {{ vmc | json}}</pre>
+    <!-- <input type="checkbox" ng-model="vmc.debug" />Debug
+     <pre ng-show="vmc.debug"> {{ vmc | json}}</pre> -->
+    <p>
     <label for="categories">Kategorie</label>
+        </p>
+    <ul>
     <div ng-repeat="category in vmc.categories">
-    {{ category.name }} 
+    <li>{{ category.name }} </li>
     </div>
-    
-    <select name="category" class="form-control" required ng-model="vmc.selectedCategory" ng-options="category.name for category in vmc.allCategories track by category.id">
+    </ul>
+    <select name="categories" multiple ng-multiple="true" class="form-control" ng-model="vmc.selectedCategory" ng-options="category.name for category in vmc.allCategories | filter: vmc.typedCategoryName track by category.id ">
     </select>
+
     <button type="button" class="btn btn-success" ng-click="vmc.addSelectedCategory()">Dodaj</button>
+    <button type="button" class="btn btn-success" ng-click="vmc.removeSelectedCategory()">Usuń</button>
     
-    <input name="typedCategoryName" ng-model="vmc.typedCategoryName" type="text" placeholder="Podaj nazwę kategorii" class="form-control"/>
-    <button type="button" class="btn btn-success" ng-click="vmc.addNewCategory()">Dodaj</button>
+    <input name="typedCategoryName" ng-model="vmc.typedCategoryName" type="text" placeholder="Podaj nazwę kategorii lub filtruj ;)" class="form-control"/>
+    <button type="button" class="btn btn-success" ng-click="vmc.addNewCategory()">Dodaj nową kategorię</button>
 </div>

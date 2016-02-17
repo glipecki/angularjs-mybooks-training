@@ -1,4 +1,5 @@
-<!-- <pre> {{ vm | json }} </pre> -->
+<!-- <pre> {{ vm | json }} </pre>
+<pre> {{ vm.$error | json }} </pre> -->
 <div class="panel panel-default">
     <div class="panel-heading">Dodaj nową książkę</div>
     <div class="panel-body">
@@ -37,6 +38,22 @@
              </div>
             <div id="categories" datasource="vm.book.categories" x-cd-categories>
             </div>
+            
+            <div class="form-group">
+                <label for="series">Seria</label>
+                <select name="series" class="form-control" ng-model="vm.book.series" ng-options="series.name for series in vm.series track by series.id" ng-disabled="vm.isAddNewSerie">
+                </select>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="vm.isAddNewSerie" ng-click="clearSerie()"/> Dodaj nową serię
+                </label>
+            </div>
+            <div class="form-group" ng-show="vm.isAddNewSerie" class="ng-hide">
+                <label for="serieName">Nazwa serii</label>
+                <input name="typedName" type="text" placeholder="Podaj nazwę serii" class="form-control" ng-model="vm.typedSerie"/>
+             </div>
+            
         </form>
         <button type="button" class="btn btn-success" ng-click="addBook()" ng-disabled="editBookForm.$invalid">Zapisz</button>
     </div>
