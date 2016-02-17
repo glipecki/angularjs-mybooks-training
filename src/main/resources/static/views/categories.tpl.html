@@ -1,0 +1,28 @@
+<div class="form-group" >
+    <label for="name">{{'NAME' | translate  | capitalize}}</label>
+    <input name="name" type="text" class="form-control" placeholder="{{'ADD_NEW_CATEGORY_PLACEHOLDER' | translate}}" ng-model="newCategoryName" required />
+</div>
+<button type="button" class="btn btn-success" ng-disabled="newCategoryName.length == 0" ng-click="addNewCategory()">{{'SAVE' | translate}}</button>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="{{'CATEGORIES_FILTER_PLACEHOLDER' | translate}}" ng-model="categoriesFilter"/>
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-search"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+<ul class="list-group">
+    <li ng-repeat="category in categories | filter:categoriesFilter" ng-click="changeEditingElement($index)" class="repeated-item list-group-item">
+        <div>
+            <div ng-hide="editingElement == $index">
+                  <a>{{category.name}}</a>
+            </div>
+            <div ng-show="editingElement == $index">
+                  <input ng-keyup="$event.keyCode == 13 && changeCategoryName()" ng-model="editingElementValue">
+            </div>
+        </div>
+    </li>
+</ul>

@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Filtruj książki" />
+            <input type="text" class="form-control" placeholder="Filtruj książki" ng-model="booksFilter"/>
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-search"></span>
             </span>
@@ -9,7 +9,7 @@
     </div>
 </div>
 <ul class="list-group">
-    <li class="list-group-item">
-        <a>Bohaterowie umierają (<em>Matthew Woodring Stover</em>)</a>
+    <li ng-repeat="book in vm.bookList | filter:booksFilter" class="repeated-item list-group-item" ui-sref="bookDetails({bookId: book.id})">
+        <a>{{book.name}} (<em>{{book.author.name}}</em>)</a>
     </li>
 </ul>

@@ -1,0 +1,28 @@
+<div class="form-group" >
+    <label for="name">{{'NAME' | translate  | capitalize}}</label>
+    <input name="name" type="text" class="form-control" placeholder="{{'ADD_NEW_SERIES_PLACEHOLDER' | translate}}" ng-model="newSeriesName" required />
+</div>
+<button type="button" class="btn btn-success" ng-disabled="newSeriesName.length == 0" ng-click="addNewSeries()">{{'SAVE' | translate}}</button>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="{{'SERIES_FILTER_PLACEHOLDER' | translate}}" ng-model="seriesFilter"/>
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-search"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+<ul class="list-group">
+    <li ng-repeat="s in series | filter:seriesFilter" ng-click="changeEditingElement($index)" class="list-group-item repeated-item">
+        <div>
+            <div ng-hide="editingElement == $index">
+                  <a>{{s.name}}</a>
+            </div>
+            <div ng-show="editingElement == $index">
+                  <input ng-keyup="$event.keyCode == 13 && changeSeriesName()" ng-model="editingElementValue">
+            </div>
+        </div>
+    </li>
+</ul>
