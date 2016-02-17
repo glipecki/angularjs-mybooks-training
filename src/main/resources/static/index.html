@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="libs/bootstrap-3.3.6/css/bootstrap.css" />
     <link rel="stylesheet" href="libs/bootstrap-3.3.6/css/bootstrap-theme.css" />
     <link type="text/css" rel="stylesheet" href="styles/app.css" />
+    <link type="text/css" rel="stylesheet" href="styles/ngToast.min.css" />
     <style>
         [ng\:cloak],
         [ng-cloak],
@@ -19,9 +20,11 @@
 </head>
 
 <body>
+<div cd-overlay></div>
+<toast></toast>
     <div>
         <nav class="navbar navbar-default">
-            <div class="container">
+            <div class="container" ng-controller="NavController as vm">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">
                         <i class="fa fa-book"></i> myBooks
@@ -29,29 +32,50 @@
                 </div>
                 <div>
                     <ul class="nav navbar-nav">
-                        <li>
-                            <a>Lista książek</a>
+                        <li ng-class="{'active':vm.currentNavigationState.name === 'book-list'}">
+                            <a ui-sref="book-list">Lista książek</a>
                         </li>
-                        <li>
-                            <a>Dodaj książkę</a>
+                        <li ng-class="{'active':vm.currentNavigationState.name === 'book-add'}">
+                            <a ui-sref="book-add">Dodaj książkę</a>
                         </li>
                     </ul>
                 </div>
+
             </div>
         </nav>
-        <div id="content">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <div></div>
-                    </div>
-                </div>
+    </div>
+
+<div id="content">
+    <div class="container">
+        <toaster-container
+                toaster-options="{'time-out': 3000,
+                'position-class': 'toast-bottom-right','close-button':true}"></toaster-container>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2" ui-view>
+
             </div>
+        </div>
+    </div>
+</div>
 </body>
 <script type="text/javascript" src="libs/jquery-2.2.0.js"></script>
 <script type="text/javascript" src="libs/bootstrap-3.3.6/js/bootstrap.js"></script>
 <script type="text/javascript" src="libs/angular-1.4.8.js"></script>
 <script type="text/javascript" src="libs/angular-ui-router-0.2.15.js"></script>
+
+<!-- Angular aditional libs -->
+<script type="text/javascript" src="libs/angular-animate.js"></script>
+<script type="text/javascript" src="libs/angular-aria.min.js"></script>
+<script type="text/javascript" src="libs/angular-messages.min.js"></script>
+<script type="text/javascript" src="libs/angular-material.min.js"></script>
+<script type="text/javascript" src="libs/angular-sanitize.min.js"></script>
+<!--Dropdown-->
+<script type="text/javascript" src="libs/multiselect-tpls.js"></script>
+<!--Translate-->
+<script type="text/javascript" src="libs/angular-translate.min.js"></script>
+<!--toast-->
+<script type="text/javascript" src="libs/ngToast.min.js"></script>
+
 <script type="text/javascript" src="app.js"></script>
 
 </html>
