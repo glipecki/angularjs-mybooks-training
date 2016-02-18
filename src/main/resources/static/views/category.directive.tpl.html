@@ -1,0 +1,25 @@
+<div class="form-group">
+	<label for="category" translate="CATEGORIES">Kategoria</label>
+	<div class="input-group">
+
+		<select name="category" class="form-control"
+			ng-model="vmc.selectedCategory"
+			ng-options="category.name for category in vmc.categories">
+			<option value="" ng-if="false" />
+		</select>
+		<div class="input-group-btn">
+			<button type="button" class="btn btn btn-success btn-md "
+				ng-click="vmc.addBookCategory()">
+				<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+			</button>
+			<button type="button" class="btn btn-danger btn-md"
+				ng-click="vmc.resetBookCategory()">
+				<span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+			</button>
+		</div>
+	</div>
+	<div ng-show="vmc.book.categories.length > 0" class="alert alert-success"
+		role="alert">
+		<span ng-repeat="cat in vmc.book.categories" class="animate">{{cat.name }} &nbsp</span>
+	</div>
+</div>

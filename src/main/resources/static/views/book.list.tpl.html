@@ -1,20 +1,33 @@
-<div class="panel panel-default">
-    <div class="panel-body">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Filtruj książki" ng-model="currentFilter"/>
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-search"></span>
-            </span>
-        </div>
-    </div>
+				
+<div class="panel panel-success">
+	<div class="panel-heading" translate="BOOK_LIST">Lista książek</div>
+	<div class="panel-body">
+		<div class="input-group">
+			<input type="text" class="form-control" placeholder="{{ 'FILTER_BOOKS' | translate }}" 
+				ng-model="currentFilter" /> <span
+				class="input-group-addon btn-success"> <span
+				class="glyphicon glyphicon-search"></span>
+			</span>
+		</div>
+	</div>
 </div>
-<div>
-	<ul class="list-group">
-		<li class="list-group-item"
-			ng-repeat="book in vm.books | filter:currentFilter">
-			<a ui-sref="book-details({id: book.id})"> {{ book.name }} (<em>{{
-					book.author.name}}</em>)
-		</a><button class="btn btn-warning btn-xs" ui-sref="book-edit({id: book.id})">Edytuj</button>
-		</li>
-	</ul>
+<div class="row">
+	<div class="col-xs-6 col-md-3 animate"
+		ng-repeat="item in vm.books | filter:currentFilter"
+		style="width: 200px; height: 220px">
+		<a ui-sref="book-details({id: item.id})">
+			<div style="width: 195px; height: 215px" class="book-list-item">
+				<div ng-if="item.id <= 7">
+					<img ng-src="covers/{{item.id}}.jpg"
+						style="width: 70%; height: 70%">
+				</div>
+				<div ng-if="item.id > 7">
+					<img ng-src="covers/unknown.png"
+						style="width: 90%; height: 90%">
+				</div>
+				<h6>{{item.name}}</h6>
+				<h6>{{item.author.name}}</h6>
+			</div>
+		</a>
+	</div>
 </div>

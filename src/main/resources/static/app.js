@@ -1,116 +1,15 @@
 'use strict';
 
-var app = angular.module('app', [ 'ui.router', 'ui.bootstrap' ]);
-
-app.service('AuthorService', [ '$http', '$q', function($http, $q) {
-	this.getAuthors = function() {
-		var deferred = $q.defer();
-		$http.get('/api/author/').then(function(response) {
-			deferred.resolve(response.data);
-		}, function(response) {
-			deferred.reject(response);
-		});
-		return deferred.promise;
-	};
-	
-} ]);
-
-app.service('CategoryService', [ '$http', '$q', function($http, $q) {
-	this.getCategories = function() {
-		var deferred = $q.defer();
-		$http.get('/api/category/').then(function(response) {
-			deferred.resolve(response.data);
-		}, function(response) {
-			deferred.reject(response);
-		});
-		return deferred.promise;
-	};
-	
-	this.addCategory = function(category) {
-		var deferred = $q.defer();
-		$http.post('/api/category', category).then(function(response) {
-			deferred.resolve(response.data);
-		}, function(response) {
-			deferred.reject(response);
-		});
-		return deferred.promise;
-	}
-	
-	
-} ]);
-
-app.service('SeriesService', [ '$http', '$q', function($http, $q) {
-	this.getSeries = function() {
-		var deferred = $q.defer();
-		$http.get('/api/series/').then(function(response) {
-			deferred.resolve(response.data);
-		}, function(response) {
-			deferred.reject(response);
-		});
-		return deferred.promise;
-	};
-	
-	this.addSeria = function(seria) {
-		var deferred = $q.defer();
-		$http.post('/api/series', seria).then(function(response) {
-			deferred.resolve(response.data);
-		}, function(response) {
-			deferred.reject(response);
-		});
-		return deferred.promise;
-	}
-	
-} ]);
-
-
-app.service('BookService', [ '$http', '$q', function($http, $q) {
-	this.getBook = function(bookId) {
-		var deferred = $q.defer();
-		$http.get('/api/books/' + bookId).then(function(response) {
-			deferred.resolve(response.data);
-		}, function(response) {
-			deferred.reject(response);
-		});
-		return deferred.promise;
-	};
-
-	this.getBooks = function() {
-		var deferred = $q.defer();
-		$http.get('/api/books').then(function(response) {
-			deferred.resolve(response.data);
-		}, function(response) {
-			deferred.reject(response);
-		});
-		return deferred.promise;
-	}
-
-	this.addBook = function(book) {
-		var deferred = $q.defer();
-		$http.post('/api/books', book).then(function(response) {
-			deferred.resolve(response.data);
-		}, function(response) {
-			deferred.reject(response);
-		});
-		return deferred.promise;
-	}
-	
-	this.updateBook = function(bookId, book) {
-		var deferred = $q.defer();
-		$http.put('/api/books/' + bookId, book).then(function(response) {
-			deferred.resolve(response.data);
-		}, function(response) {
-			deferred.reject(response);
-		});
-		return deferred.promise;
-	}
-} ]);
+var app = angular.module('app', [ 'ui.router', 'angular-growl','ngAnimate', 'pascalprecht.translate']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('/books');
 	$stateProvider.state('book-list', {
 		url : '/books',
 		templateUrl : 'views/book.list.tpl.html',
-		controller : 'BookListController',
+		controller : function(books) {
+			this.books = books;
+		},
 		controllerAs : 'vm',
 		resolve : {
 			books : [ 'BookService', function(bookService) {
@@ -125,20 +24,22 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		},
 		url : '/book/{id:[0-9]+}',
 		templateUrl : 'views/book.details.tpl.html',
-		controller : 'BookDetailsController',
+		controller :  function(book) {
+			this.book = book;
+		},
 		controllerAs : 'vm',
 		resolve : {
 			book : [ 'BookService', '$stateParams',
-					function(bookService, $stateParams) {
-						return bookService.getBook($stateParams.id);
-					} ]
+			         function(bookService, $stateParams) {
+				return bookService.getBook($stateParams.id);
+			} ]
 		}
 	});
 
 	$stateProvider.state('book-add', {
 		url : '/add',
 		templateUrl : 'views/book.edit.tpl.html',
-		controller : 'BookAddController',
+		controller : 'AddBookController',
 		controllerAs : 'vm',
 		resolve : {
 			authors : [ 'AuthorService', function(AuthorService) {
@@ -149,14 +50,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			} ],
 			series : [ 'SeriesService', function(seriesService) {
 				return seriesService.getSeries();
-			} ]
+			} ],
+			book: function() { return {}; } 
 		}
 	});
 	
 	$stateProvider.state('book-edit', {
 		url : '/edit/{id:[0-9]+}',
 		templateUrl : 'views/book.edit.tpl.html',
-		controller : 'BookEditController',
+		controller : 'EditBookController',
 		controllerAs : 'vm',
 		resolve : {
 			authors : [ 'AuthorService', function(authorService) {
@@ -164,6 +66,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			} ],
 			book : [ 'BookService', '$stateParams', function(bookService, $stateParams) {
 				return bookService.getBook($stateParams.id);
+			} ],
+			categories : [ 'CategoryService', function(categoryService) {
+				return categoryService.getCategories();
+			} ],
+			series : [ 'SeriesService', function(seriesService) {
+				return seriesService.getSeries();
 			} ]
 		}
 	});
@@ -171,9 +79,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	$stateProvider.state('series-list', {
 		url : '/series',
 		templateUrl : 'views/series.list.tpl.html',
-		controller : function(series) {
-			this.series = series;
-		},
+		controller : 'SeriaController', 
 		controllerAs : 'vm',
 		resolve : {
 			series : [ 'SeriesService', function(seriesService) {
@@ -192,9 +98,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	$stateProvider.state('category-list', {
 		url : '/category',
 		templateUrl : 'views/category.list.tpl.html',
-		controller : function(categories) {
-			this.categories = categories;
-		},
+		controller : 'CategoryController',
 		controllerAs : 'vm',
 		resolve : {
 			categories : [ 'CategoryService', function(categoryService) {
@@ -211,80 +115,55 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	});
 });
 
-app.controller('BookListController', [ 'books', function(books) {
-	this.books = books;
+/**
+ * Obsługa aktywności tabów
+ */
+app.value('CurrentNavigationState', {});
+app.run(['$rootScope', 'CurrentNavigationState', function($rootScope, currentNavigationState) {
+	$rootScope.$on('$stateChangeSuccess', function(event, toState, toStateParams) {
+		currentNavigationState.name = toState.name;
+		currentNavigationState.params = toStateParams;
+	});
+}]);
+
+app.controller('NavbarController', [ 'CurrentNavigationState', function(currentNavigationState) {
+	this.currentNavigationState = currentNavigationState;
 } ]);
 
-app.controller('BookDetailsController', [ 'book', function(book) {
-	this.book = book;
-} ]);
+/**
+ * Konfiguracja powiadomień
+ */
+app.config(['growlProvider', '$httpProvider', function(growlProvider, $httpProvider) {
+	  growlProvider.globalInlineMessages(true);
+	  growlProvider.globalTimeToLive(3000);
+}]);
 
-app.controller('AuthorController', [ 'authors', function(authors) {
-	this.authors = authors;
-} ]);
-
-app.controller('BookAddController', [ 'authors', 'series', 'categories', 'BookService', '$state', '$scope', function(authors, series, categories, bookService, $state, $scope) {
-	this.authors = authors;
-	this.series = series;
-	this.categories = categories;
-	this.saveBook = function() {
-		bookService.addBook(this.book).then(function() {
-			$state.go('book-list');
-		}, function() {
-			alert("error");
-		});
-	};
-	this.clearAuthor = function() {
-		this.book.author = {};
-	};
-	this.book = {};
-} ]);
-
-app.controller('BookEditController', [ 'authors', 'book', 'BookService', '$state', '$scope', function(authors, book, bookService, $state, $scope) {
-	this.authors = authors;
-	this.book = book;
+/**
+ * Dyrektywa dla kręciołka
+ */
+app.controller('CdOverlayController', [ '$rootScope', function($rootScope) {
+	var ctrl = this;
+	this.showSpinner = true;
+	$rootScope.$on('$stateChangeStart', function() {
+		ctrl.showSpinner = true;
+	});
 	
-	this.clearAuthor = function() {
-		this.book.author = {};
-	};
+	$rootScope.$on('$stateChangeSuccess', function() {
+		ctrl.showSpinner = false;
+	});
 	
-	this.saveBook = function() {
-		bookService.updateBook(this.book.id, this.book).then(function() {
-			$state.go('book-list');
-		}, function() {
-			alert("error");
-		});
-	};
+	$rootScope.$on('$stateChangeError', function() {
+		ctrl.showSpinner = false;
+	});
+} ]);
 
-	for(var author of this.authors) {
-		if(this.book.author.id === author.id) {
-			this.book.author = author;
-			break;
-		}
+
+app.directive('cdOverlay', function() {
+	return {
+		restrict: 'AE',
+		relace: true,
+		templateUrl: 'views/overlay.tpl.html',
+		controller: 'CdOverlayController',
+		controllerAs: 'vm'
 	}
-} ]);
-
-app.controller('AddSeriaController', ['SeriesService', '$state', '$scope', function( seriesService, $state, $scope) {
-	this.saveSeria = function() {
-		seriesService.addSeria(this.seria).then(function() {
-			$state.go('series-list');
-		}, function() {
-			alert("error");
-		});
-	};
-	
-	this.seria = {};
-} ]);
-
-app.controller('AddCategoryController', [ 'CategoryService', '$state', '$scope', function(categoryService, $state, $scope) {
-	this.saveCategory = function() {
-		categoryService.addCategory(this.category).then(function() {
-			$state.go('category-list');
-		}, function() {
-			alert("error");
-		});
-	};
-	
-	//this.category = {};
-} ]);
-
+});

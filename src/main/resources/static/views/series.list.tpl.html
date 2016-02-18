@@ -1,22 +1,78 @@
-<button type="button" class="btn btn-primary"
-	data-target=".bs-example-modal-sm" ui-sref="series-add()">Dodaj</button>
-
-<table class="table">
+<div class="panel panel-success">
+	<div class="panel-heading" translate="BOOK_SERIES">Serie wydawnicze</div>
+	<div class="panel-body">
+		<div class="input-group">
+			<input type="text" class="form-control" placeholder="{{ 'FILTER' | translate }}"
+				ng-model="currentFilter" /> <span
+				class="input-group-addon btn-success"> <span
+				class="glyphicon glyphicon-search"></span>
+			</span>
+		</div>
+		<br />
+		<form novalidate name="addSeriaForm">
+			<div
+				ng-class="{ 'has-error' : addSeriaForm.name.$error.maxlength || addSeriaForm.name.$error.minlength  }">
+				<div class="input-group">
+					<input name="name" type="text" class="form-control"
+						ng-model="vm.addNewItem" placeholder="{{ 'ADD_SERIES' | translate }}"
+						required ng-minlength="1" ng-maxlength="50" />
+					<div class="input-group-btn">
+						<button type="button" class="btn btn btn-success btn-md"
+						    ng-disabled="addSeriaForm.$invalid"
+							ng-click="vm.saveItem()">
+							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+						</button>
+					</div>
+				</div>
+				<p ng-show="addSeriaForm.name.$error.minlength" class="help-block" translate="NAME_TOO_SHORT">Nazwa
+					Serii Wydawniczej jest za długa</p>
+				<p ng-show="addSeriaForm.name.$error.maxlength" class="help-block" translate="NAME_TOO_LONG">Nazwa
+					Serii Wydawniczej jest za długa</p>
+			</div>
+		</form>
+	</div>
+</div>
+<table class="table table-hover">
 	<thead>
 		<tr>
 			<th>#</th>
-			<th>Nazwa</th>
+			<th translate="NAME">Nazwa</th>
+			<th translate="EDIT">Edytuj</th>
 		</tr>
 	</thead>
-	<tbody>
-		<tr ng-repeat="seria in vm.series | filter:currentFilter"
-			ng-class="selected">
-			<td>{{seria.id}}</td>
-			<td>{{seria.name}}</td>
-			<td>
-				<button class="btn btn-warning btn-xs"
-					ui-sref="seres-edit({id: seria.id})">Edytuj</button>
-			</td>
-		</tr>
-	</tbody>
+	<tr ng-repeat="seria in vm.series | filter:currentFilter" class="animate">
+		<td>{{seria.id}}</td>
+		<td ng-hide="vm.showInput(seria.id)">{{seria.name}}</td>
+		<td ng-show="vm.showInput(seria.id)">
+		<form name="editSeria">
+				<div
+					ng-class="{ 'has-error' : editSeria.editname.$error.maxlength || editSeria.editname.$error.minlength  }">
+					<input name="editname" type="text" class="form-control" value="{{seria.name}}"
+						ng-model="vm.editItemName"
+						required ng-minlength="1" ng-maxlength="50" />
+					<p ng-show="editSeria.editname.$error.minlength"
+						class="help-block" translate="NAME_TOO_SHORT">Nazwa Kategorii
+						jest za długa</p>
+					<p ng-show="editSeria.editname.$error.maxlength"
+						class="help-block" translate="NAME_TOO_LONG">Nazwa Kategorii
+						jest za długa</p>
+				</div>
+			</form>	
+		</td>		
+						
+		<td width="100px" ng-hide="vm.showInput(seria.id)"><button type="button" ng-click="vm.startEditItem(seria)"
+				class="btn btn-default btn-sm">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+		</button></td>
+			
+		<td width="100px" ng-show="vm.showInput(seria.id)"><button type="button" ng-click="vm.updateItem()"
+				class="btn btn-warning btn-sm" ng-disabled="editSeria.$invalid">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<button type="button" ng-click="vm.cancelEditItem()"
+				class="btn btn-danger btn-sm">
+				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+		</button></td>	
+
+		
+	</tr>
 </table>
