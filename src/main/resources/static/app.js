@@ -75,12 +75,12 @@ myApp.controller('NavbarController', ['CurrentNavigationState', function(state) 
     this.currentNavigationState = state;
 }]);
 
-myApp.controller('BookAddController', function($scope, $state, authors, book, series, BookService, AuthorsService) {
+myApp.controller('BookAddController', ['$scope', '$state', 'authors', 'book', 'series', 'BookService', 'AuthorsService', function($scope, $state, authors, book, series, BookService, AuthorsService) {
         this.authors = authors;
         this.book = book;
         this.series = series;
         var ref = this;
-        $scope.addBook = function() {
+        this.addBook = function() {
             if (ref.isAddNewAuthor) {
                 ref.book.author = { name:ref.typedAuthor };
                 var resAddAuthor = AuthorsService.addAuthor(ref.book.author, function() {
@@ -97,11 +97,11 @@ myApp.controller('BookAddController', function($scope, $state, authors, book, se
                         $state.go('book-list');
                     });
             }
-        }
-        $scope.clearAuthor = function() {
+        };
+        this.clearAuthor = function() {
             ref.book.author = {};
         }
-});
+}]);
 
 myApp.controller('CdOverlayController', ['$rootScope', function($rootScope) {
     var ctrl = this;
