@@ -1,0 +1,42 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Filtruj serie" ng-model="myfilter"/input>
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-search"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+<table class="table table-hover">
+    <tbody>
+        <tr ng-repeat="series in vm.series | filter:myfilter">
+           <td>{{$index + 1}}</td>
+           <td>
+               <span ng-hide="editMode">{{series.name}}</span>
+               <input type="text" ng-show="editMode" ng-model="series.name" ng-required />
+           </td>
+           <td>
+               <button type="submit" ng-hide="editMode" ng-click="editMode = true; editSeries(series)" class="btn btn-success">Edit</button>
+               <button type="submit" ng-show="editMode" ng-click="editMode = false; saveSeries(series)" class="btn btn-success">Save</button>
+               <button type="submit" ng-show="editMode" ng-click="editMode = false; cancelSeries()" class="btn btn-success">Cancel</button>
+           </td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<form validate name="editSeriesForm">
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="addSeriesChecked" aria-label="Toggle ngHide"/> Dodaj nową serię
+        </label>
+    </div>
+    <div class="form-group" ng-class="{'has-error': editSeriesForm.seriesName.$invalid && !editSeriesForm.seriesName.$pristine}" ng-show="addSeriesChecked" class="ng-hide">
+        <label for="seriesName">Nazwa serii</label>
+        <input name="seriesName" type="text" placeholder="Podaj serię" class="form-control" ng-model="newSeriesName" ng-required="addSeriesChecked"/>
+        <span class="help-block" ng-show="editSeriesForm.seriesName.$invalid && !editSeriesForm.seriesName.$pristine">Musisz podać serię</span>
+    </div>
+</form>
+<button type="button" class="btn btn-success" ng-disabled="editSeriesForm.$invalid || !addSeriesChecked" ng-click="addSeries()">Zapisz</button>
+

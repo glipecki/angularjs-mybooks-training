@@ -1,0 +1,42 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Filtruj kategorie" ng-model="myfilter"/input>
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-search"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+<table class="table table-hover">
+    <tbody>
+        <tr ng-repeat="category in vm.categories | filter:myfilter">
+           <td>{{$index + 1}}</td>
+           <td>
+               <span ng-hide="editMode">{{category.name}}</span>
+               <input type="text" ng-show="editMode" ng-model="category.name" ng-required />
+           </td>
+           <td>
+               <button type="submit" ng-hide="editMode" ng-click="editMode = true; editCategory(category)" class="btn btn-success">Edit</button>
+               <button type="submit" ng-show="editMode" ng-click="editMode = false; saveCategory(category)" class="btn btn-success">Save</button>
+               <button type="submit" ng-show="editMode" ng-click="editMode = false; cancelCategory()" class="btn btn-success">Cancel</button>
+           </td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<form validate name="editCategoryForm">
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="addCategoryChecked" aria-label="Toggle ngHide"/> Dodaj nową kategorię
+        </label>
+    </div>
+    <div class="form-group" ng-class="{'has-error': editCategoryForm.categoryName.$invalid && !editCategoryForm.categoryName.$pristine}" ng-show="addCategoryChecked">
+        <label for="categoryName">Nazwa kategorii</label>
+        <input name="categoryName" type="text" placeholder="Podaj nazwę kategorii" class="form-control" ng-model="newCategoryName" ng-required="addCategoryChecked"/>
+        <span class="help-block" ng-show="editCategoryForm.categoryName.$invalid && !editCategoryForm.categoryName.$pristine">Musisz podać kategorię książki</span>
+    </div>
+</form>
+<button type="button" class="btn btn-success" ng-disabled="editCategoryForm.$invalid || !addCategoryChecked" ng-click="addCategory()">Zapisz</button>
+

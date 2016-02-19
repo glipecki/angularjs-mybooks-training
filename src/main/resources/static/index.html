@@ -18,10 +18,11 @@
     </style>
 </head>
 
-<body>
+<body ng-cloak ng-app="myBooksApp">
+    <div x-cd-overlay></div>
     <div>
         <nav class="navbar navbar-default">
-            <div class="container">
+            <div class="container" ng-controller="NavbarController as vm">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">
                         <i class="fa fa-book"></i> myBooks
@@ -29,11 +30,20 @@
                 </div>
                 <div>
                     <ul class="nav navbar-nav">
-                        <li>
-                            <a>Lista książek</a>
+                        <li ng-class="{'active': vm.currentNavigationState.name === 'book-list'}">
+                            <a ui-sref="book-list"> <i class="fa fa-book"></i> Lista książek</a>
                         </li>
-                        <li>
-                            <a>Dodaj książkę</a>
+                        <li ng-class="{'active': vm.currentNavigationState.name === 'book-add'}">
+                            <a ui-sref="book-add"> <i class="fa fa-pencil"></i> Dodaj książkę</a>
+                        </li>
+                        <li ng-class="{'active': vm.currentNavigationState.name === 'category-list'}">
+                            <a ui-sref="category-list"> <i class="fa fa-list"></i> Lista kategorii</a>
+                        </li>
+                        <li ng-class="{'active': vm.currentNavigationState.name === 'series-list'}">
+                            <a ui-sref="series-list"> <i class="fa fa-list"></i> Lista serii</a>
+                        </li>
+                        <li ng-class="{'active': vm.currentNavigationState.name === 'author-list'}">
+                            <a ui-sref="author-list"> <i class="fa fa-list"></i> Lista autorów</a>
                         </li>
                     </ul>
                 </div>
@@ -43,15 +53,18 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <div></div>
+                        <div ui-view></div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 </body>
 <script type="text/javascript" src="libs/jquery-2.2.0.js"></script>
 <script type="text/javascript" src="libs/bootstrap-3.3.6/js/bootstrap.js"></script>
 <script type="text/javascript" src="libs/angular-1.4.8.js"></script>
 <script type="text/javascript" src="libs/angular-ui-router-0.2.15.js"></script>
+<script type="text/javascript" src="libs/angular-resource.js"></script>
 <script type="text/javascript" src="app.js"></script>
 
 </html>
