@@ -72,6 +72,6 @@ app.config(function ($translateProvider) {
 		NAME_TOO_SHORT: "Name is too short",
 		NAME_TOO_LONG: "Name is too long"
 	});
-	$translateProvider.preferredLanguage('en');
+	$translateProvider.preferredLanguage('pl');
 	$translateProvider.useSanitizeValueStrategy('escape');
 });
