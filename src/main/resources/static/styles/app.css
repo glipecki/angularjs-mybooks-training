@@ -30,3 +30,29 @@ img.book-cover {
 h3.book-title {
     margin-top: 0px;
 }
+
+#categorySelection {
+    width: 100%;
+}
+
+.animate-show-hide {
+  -webkit-transition:all linear 1.5s;
+  transition:all linear 1.5s;
+}
+
+.animate-show-hide.ng-hide {
+  opacity:0;
+}
+
+img.book-picture {
+    max-width: 120px;
+    max-height: 120px;
+    position: absolute;
+    left: 150%;
+
+    transition: transform 2s;
+}
+
+img.book-picture:hover {
+   transform: rotateX(180deg);;
+}
