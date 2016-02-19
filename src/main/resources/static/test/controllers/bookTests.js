@@ -9,18 +9,6 @@ describe('AddBookController', function() {
 		bookCategoriesService = _BookCategoriesService_;
 	}));
 
-	it('should expose books', function() {
-		// given 
-		addBookController = $controller('AddBookController', {
-			authors: [],
-			series: [],
-			categories: []
-		});
-
-		// then
-		expect(addBookController.books).not.toBeNull();
-	});
-
 	it('should add book via books service', function() {
 		// given
 		bookServiceMock = {
