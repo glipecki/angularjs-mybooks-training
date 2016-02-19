@@ -11,6 +11,6 @@
 </div>
 <ul class="list-group">
     <li ng-repeat="book in vm.books | filter:vm.filter" class="list-group-item">
-        <a ui-sref="book-details({ id: book.id })">{{ book.name }} (<em>{{ book.author.name }}</em>)</a>
+        <a ui-sref="book-details({ id: book.id })">{{ book.name }} (<em>{{ book.author.name }}</em>)</a> <a ui-sref="book-edit({ id: book.id })"><em>edycja</em></a>
     </li>
 </ul>

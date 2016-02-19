@@ -18,7 +18,7 @@ myApp.factory("SeriesResource", function ($resource) {
   return $resource("/api/series/:id");
 });
 
-myApp.service('BookService', ['BookResource', '$window', function(res, $window) {
+myApp.service('BookService', ['BookResource', '$window', '$q', function(res, $window, $q) {
    onFailure = function() {
        $window.alert("Błąd podczas operacji na książce");
    }
@@ -120,7 +120,9 @@ myApp.controller('CdOverlayController', ['$rootScope', function($rootScope) {
 
 myApp.controller('CdCategoriesController', ['CategoryResource', '$scope', function(categoriesRes, $scope) {
     var ctrl = this;
+    var categories = $scope.datasource;
     this.categories = $scope.datasource;
+    var scope = $scope;
     this.allCategories = categoriesRes.query();
     this.addNewCategory = function() {
         cat = { name: this.typedCategoryName };
@@ -133,27 +135,25 @@ myApp.controller('CdCategoriesController', ['CategoryResource', '$scope', functi
         })
     };
     this.addSelectedCategory = function() {
-        var ctrlCategories = ctrl.categories;
         ctrl.selectedCategory.forEach(function (cat) {
             found = 0;
-            for(var i = ctrlCategories.length-1; i>=0; i--) {
-	           if (ctrlCategories[i].id === cat.id) {
+            for(var i = scope.datasource.length-1; i>=0; i--) {
+	           if (scope.datasource[i].id === cat.id) {
                  found = 1;
                  break;
                }
             }
             if (found==0) {
-                ctrlCategories.push(cat);
+                scope.datasource.push(cat);
             }
         });
     };
     
     this.removeSelectedCategory = function() {
-        var ctrlCategories = ctrl.categories;
         ctrl.selectedCategory.forEach(function (cat) {
-            for(var i = ctrlCategories.length-1; i>=0; i--) {
-	           if (ctrlCategories[i].id === cat.id) {
-                 ctrlCategories.splice(i, 1);
+            for(var i = scope.datasource.length-1; i>=0; i--) {
+	           if (scope.datasource[i].id === cat.id) {
+                 scope.datasource.splice(i, 1);
                }
             }
 
@@ -233,6 +233,12 @@ myApp.directive('cdCategories', function() {
         scope: {
             datasource: '='
         },
+        /*link: function($scope, $elm, $attr) {
+          $scope.watch("datasource", function (newValue, odlValue) {
+              var ds = $attr.datasource;
+              vmc.categories = ds;
+          });  
+        },*/
         replace: true,
         templateUrl: 'views/categories.tpl.html',
         controller: 'CdCategoriesController',
