@@ -136,7 +136,7 @@ myApp.controller('CdCategoriesController', ['CategoryResource', '$scope', functi
         var ctrlCategories = ctrl.categories;
         ctrl.selectedCategory.forEach(function (cat) {
             found = 0;
-            for(var i = ctrlCategories.length-1; i--;) {
+            for(var i = ctrlCategories.length-1; i>=0; i--) {
 	           if (ctrlCategories[i].id === cat.id) {
                  found = 1;
                  break;
@@ -151,7 +151,7 @@ myApp.controller('CdCategoriesController', ['CategoryResource', '$scope', functi
     this.removeSelectedCategory = function() {
         var ctrlCategories = ctrl.categories;
         ctrl.selectedCategory.forEach(function (cat) {
-            for(var i = ctrlCategories.length-1; i--;) {
+            for(var i = ctrlCategories.length-1; i>=0; i--) {
 	           if (ctrlCategories[i].id === cat.id) {
                  ctrlCategories.splice(i, 1);
                }
@@ -163,6 +163,59 @@ myApp.controller('CdCategoriesController', ['CategoryResource', '$scope', functi
             
 
 }]);
+
+var ISBN_REGEXP = /^((978|979)-)?\d+-\d+-\d+-[0-9X]$/i;
+var ISBN_13_START_REGEXP = /^(978|979)-\d+-\d+-\d+-[0-9X]$/i;
+// pozytywny np. 0-306-40615-2
+myApp.directive('isbnInput', function() {
+   return {
+       require: 'ngModel',
+       link: function(scope, elm, attrs, ctrl) {
+           ctrl.$validators.isbnInput = function(modelValue, viewValue) {
+               if (!ISBN_REGEXP.test(viewValue)) {
+                   return false;
+               }
+               digits = [];
+               for(i=0;i<viewValue.length;i++) {
+                   char = viewValue.charCodeAt(i);
+                   if (char>=48 && char<=57) {
+                       digits.push(char-48);
+                   }
+                   if (viewValue.charAt(i)=='X') {
+                       digits.push(11);
+                   }
+               }
+               if (digits.length==10) {
+                   // 2006 -
+                   chksum = 0;
+                   for(c=0;c<9;c++) {
+                       chksum+=(c+1)*digits[c];
+                   }
+                   chksum %= 11;
+                   if (chksum==digits[9]) {
+                       return true;
+                   }
+               }
+               if (digits.length==13) {
+                   // 2006 +
+                   chksum = 0;
+                   for(c=0;c<12;c++) {
+                       waga = 1;
+                       if (c % 2 == 1) {
+                           waga = 3;
+                       }
+                       chksum+=waga*digits[c];
+                   }
+                   chksum = 10 - chksum % 10;
+                   if (chksum==digits[12]) {
+                       return true;
+                   }
+               }
+               return false;
+           }
+       }
+   };
+});
 
 myApp.directive('cdOverlay', function() {
     return {
@@ -220,7 +273,7 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
       resolve: {
         authors: ['AuthorsService', function(authorService) { return authorService.getAuthors(); }],
         series: ['SeriesService', function(seriesService) { return seriesService.getSeries(); }], 
-        book: function() { return {}; }
+        book: function() { return { author: {}, categories: [] }; }
           
       }
     })
