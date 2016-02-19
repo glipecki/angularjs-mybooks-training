@@ -2,56 +2,102 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="libs/font-awesome-4.5.0/css/font-awesome.css" />
-    <link rel="stylesheet" href="libs/bootstrap-3.3.6/css/bootstrap.css" />
-    <link rel="stylesheet" href="libs/bootstrap-3.3.6/css/bootstrap-theme.css" />
-    <link type="text/css" rel="stylesheet" href="styles/app.css" />
-    <style>
-        [ng\:cloak],
-        [ng-cloak],
-        [data-ng-cloak],
-        [x-ng-cloak],
-        .ng-cloak,
-        .x-ng-cloak {
-            display: none !important;
-        }
-    </style>
+<link rel="stylesheet"
+	href="libs/font-awesome-4.5.0/css/font-awesome.css" />
+<link rel="stylesheet" href="libs/bootstrap-3.3.6/css/bootstrap.css" />
+
+<link rel="stylesheet"
+	href="libs/bootstrap-3.3.6/css/bootstrap-theme.css" />
+<link type="text/css" rel="stylesheet" href="styles/app.css" />
+<link rel="stylesheet" href="libs/angular/angular-growl.min.css" />
+<style>
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak,
+	.x-ng-cloak {
+	display: none !important;
+}
+</style>
 </head>
+<body ng-cloak ng-app="app" class="book-font">
+	<div x-cd-overlay></div>
+	<div>
+		<nav class="navbar navbar-inverse">
+			<div class="container" ng-controller="NavbarController as vm">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#"> <i class="fa fa-book"></i>
+						myBooks
+					</a>
+				</div>
+				<div>
+					<ul class="nav navbar-nav">
+						<li
+							ng-class="{ 'active' : vm.currentNavigationState.name === 'book-list' }"><a
+							ui-sref="book-list" translate="BOOK_LIST">Lista książek</a></li>
+						<li
+							ng-class="{ 'active' : vm.currentNavigationState.name === 'book-add' }"><a
+							ui-sref="book-add" translate="ADD_BOOK">Dodaj książkę</a></li>
+						<li
+							ng-class="{ 'active' : vm.currentNavigationState.name === 'series-list' }"><a
+							ui-sref="series-list" translate="BOOK_SERIES">Serie
+								wydawnicze</a></li>
+						<li
+							ng-class="{ 'active' : vm.currentNavigationState.name === 'category-list' }"><a
+							ui-sref="category-list" translate="BOOK_CATEGORIES">Kategorie
+								książek</a></li>
 
-<body>
-    <div>
-        <nav class="navbar navbar-default">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">
-                        <i class="fa fa-book"></i> myBooks
-                    </a>
-                </div>
-                <div>
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <a>Lista książek</a>
-                        </li>
-                        <li>
-                            <a>Dodaj książkę</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <div id="content">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <div></div>
-                    </div>
-                </div>
-            </div>
-</body>
-<script type="text/javascript" src="libs/jquery-2.2.0.js"></script>
-<script type="text/javascript" src="libs/bootstrap-3.3.6/js/bootstrap.js"></script>
-<script type="text/javascript" src="libs/angular-1.4.8.js"></script>
-<script type="text/javascript" src="libs/angular-ui-router-0.2.15.js"></script>
-<script type="text/javascript" src="app.js"></script>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li ng-controller="TranslateController as tc">
+							<button class="btn btn-default translate-btn" type="button"
+								ng-click="tc.changeLanguage()">
+								<span class="badge" translate="LANG" />
+							</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
 
+		<div id="content">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-9 col-md-offset-2">
+						<div growl inline="true" severity="info"></div>
+						<div ui-view></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class="navbar-reverse navbar-fixed-bottom">
+		<div class="container-fluid">
+		<div class="panel panel-default">
+		<div class="panel-heading">
+			<em>Created by Asia</em>
+		</div>
+	</footer>
+
+
+	<script type="text/javascript" src="libs/jquery-2.2.0.js"></script>
+	<script type="text/javascript"
+		src="libs/bootstrap-3.3.6/js/bootstrap.js"></script>
+
+	<script type="text/javascript" src="libs/angular-1.4.8.js"></script>
+	<script type="text/javascript" src="libs/angular-ui-router-0.2.15.js"></script>
+	<script type="text/javascript"
+		src="libs/angular/angular-translate.min.js"></script>
+	<script type="text/javascript" src="app.js"></script>
+	<script type="text/javascript" src="controllers/bookController.js"></script>
+	<script type="text/javascript" src="controllers/seriesController.js"></script>
+	<script type="text/javascript"
+		src="controllers/categoriesController.js"></script>
+	<script type="text/javascript" src="controllers/translateController.js"></script>
+	<script type="text/javascript" src="services/authorService.js"></script>
+	<script type="text/javascript" src="services/bookService.js"></script>
+	<script type="text/javascript" src="services/seriesService.js"></script>
+	<script type="text/javascript" src="services/categoriesService.js"></script>
+	<script type="text/javascript"
+		src="libs/angular/angular-animate.min.js"></script>
+	<script type="text/javascript" src="libs/angular/angular-growl.min.js"></script>
+	<script type="text/javascript" src="directives/categoriesDirective.js"></script>
+	<script type="text/javascript" src="directives/overlayDirective.js"></script>
 </html>

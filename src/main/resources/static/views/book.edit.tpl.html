@@ -1,33 +1,102 @@
-<div class="panel panel-default">
-    <div class="panel-heading">Dodaj nową książkę</div>
-    <div class="panel-body">
-        <form novalidate name="editBookForm">
-            <div class="form-group">
-                <label for="name">Nazwa</label>
-                <input name="name" type="text" class="form-control" placeholder="Podaj nazwę" required />
-                <span class="help-block">Musisz podać nazwę książki</span>
-            </div>
-            <div class="form-group" >
-                <label for="isbn">ISBN</label>
-                <input name="isbn" type="text" class="form-control" placeholder="Podaj numer ISBN" required />
-                <span class="help-block">Musisz podać poprawny numer ISBN</span>
-            </div>
-            <div class="form-group">
-                <label for="author">Autor</label>
-                <select name="author" class="form-control" required>
-                </select>
-                <span class="help-block">Musisz wybrać autora książki</span>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" /> Dodaj nowego autora
-                </label>
-            </div>
-            <div class="form-group" >
-                <label for="authorName">Nazwa autora</label>
-                <input type="text" placeholder="Podaj nazwę autora" class="form-control" required />
-            </div>
-        </form>
-        <button type="button" class="btn btn-success">Zapisz</button>
-    </div>
+<div class="panel panel-success">
+	<div class="panel-heading" translate="ADD_EDIT_BOOK">Dodaj/edytuj książkę</div>
+	<div class="panel-body">
+		<form novalidate name="editBookForm">
+			<div class="form-group"
+				ng-class="{ 'has-error' : editBookForm.name.$invalid && editBookForm.name.$touched  }">
+				<label for="name" translate="NAME">Nazwa</label>
+				<div
+					ng-class="{ 'input-group' : editBookForm.name.$touched && editBookForm.name.$invalid } ">
+					<input name="name" type="text" class="form-control"
+						ng-minlength="1" ng-maxlength="50" placeholder="{{ 'FILL_NAME' | translate }}"
+						required ng-model="vm.book.name" /> <span
+						ng-show="editBookForm.name.$touched && editBookForm.name.$invalid"
+						class="input-group-addon alert-danger"><span
+						class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
+				</div>
+				<p
+					ng-show="editBookForm.name.$touched && editBookForm.name.$invalid && !editBookForm.name.$error.maxlength"
+					class="help-block" translate="NAME_REQ">Musisz podać nazwę książki</p>
+				<p ng-show="editBookForm.name.$error.maxlength" class="help-block" translate="NAME_TOO_LONG">Nazwa
+					książki jest za długa</p>
+			</div>
+			<div class="form-group"
+				ng-class="{ 'has-error' : editBookForm.isbn.$invalid && editBookForm.isbn.$touched  }">
+				<label for="isbn">ISBN</label>
+				<div
+					ng-class="{ 'input-group' : editBookForm.isbn.$touched && editBookForm.isbn.$invalid } ">
+					<input name="isbn" type="text" class="form-control"
+						ng-maxlength="13" placeholder="{{ 'FILL_ISBN' | translate }}" required
+						ng-model="vm.book.isbn" /> <span
+						ng-show="editBookForm.isbn.$touched && editBookForm.isbn.$invalid"
+						class="input-group-addon alert-danger"><span
+						class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
+				</div>
+				<span class="help-block"
+					ng-show="editBookForm.isbn.$touched && editBookForm.isbn.$invalid" translate="WRONG_ISBN">
+					Musisz podać poprawny numer ISBN</span>
+			</div>
+			<div class="form-group" 
+			ng-class="{ 'has-error' : editBookForm.authorName.$invalid && editBookForm.author.$touched && !vm.addAuthor }">
+				<label for="author" translate="AUTHOR">Autor</label> <select name="author"
+					class="form-control" ng-model="vm.book.author"
+					ng-options="author.name for author in vm.authors"
+					ng-disabled="vm.addAuthor" 
+					required><option value="" ng-if="false" /></select> <span translate="SELECT_AUTHOR"
+					class="help-block"
+					ng-show="editBookForm.authorName.$invalid && editBookForm.author.$touched && !vm.addAuthor">
+					Musisz wybrać autora książki</span>
+			</div>
+			<div class="checkbox">
+				<label> <input type="checkbox" ng-model="vm.addAuthor"
+					ng-click="vm.clearAuthor()" /><span translate="ADD_AUTHOR">Dodaj nowego autora</span></label>
+			</div>
+			<div class="form-group author-show-hide" ng-show="vm.addAuthor"
+				ng-class="{ 'has-error' : editBookForm.authorName.$invalid && editBookForm.authorName.$touched  }">
+				<label for="name" translate="AUTHOR_NAME">Nazwa autora</label>
+				<div
+					ng-class="{ 'input-group' : editBookForm.authorName.$touched && editBookForm.authorName.$invalid } ">
+
+					<input name="authorName" type="text" class="form-control"
+						ng-minlength="1" ng-maxlength="50" placeholder="Podaj nazwę"
+						required ng-model="vm.book.author.name" /> <span
+						ng-show="editBookForm.authorName.$touched && editBookForm.authorName.$invalid"
+						class="input-group-addon alert-danger"><span
+						class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
+				</div>
+				<p
+					ng-show="editBookForm.authorName.$touched && editBookForm.authorName.$invalid && !editBookForm.authorName.$error.maxlength"
+					class="help-block" translate="AUTHOR_REQ">Musisz podać nazwę autora</p>
+				<p ng-show="editBookForm.authorName.$error.maxlength"
+					class="help-block" translate="AUTHOR_TOO_LONG">Nazwa autora jest za długa</p>
+
+			</div>
+
+			<div class="form-group">
+				<label for="seria" translate="SERIES">Seria</label> <select name="seria"
+					class="form-control" ng-model="vm.book.series"
+					ng-options="seria.name for seria in vm.series" >
+					</select>
+			</div>
+			<div multi-choice-category allcategories="vm.categories" book="vm.book"></div>
+		</form>
+
+		<div class="row">
+			<div class="col-md-9 col-md-offset-9">
+				<button type="button" class="btn btn-success btn-md book-font"
+					ng-click="vm.saveBook()" ng-disabled="editBookForm.$invalid">
+					<span class="glyphicon glyphicon-ok" aria-hidden="true"> <span
+						class="book-font" translate="SAVE"></span>
+					</span>
+				</button>
+				<button type="button" class="btn btn-default btn-md book-font"
+					ui-sref="book-details({id: vm.book.id})">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true">
+						<span class="book-font" translate="CANCEL"></span>
+					</span>
+				</button>
+			</div>
+		</div>
+	</div>
 </div>
+

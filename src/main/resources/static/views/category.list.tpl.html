@@ -1,0 +1,85 @@
+<div class="panel panel-success">
+	<div class="panel-heading" translate="CATEGORIES">Kategorie</div>
+	<div class="panel-body">
+		<div class="input-group">
+			<input type="text" class="form-control" placeholder="Filtruj"
+				ng-model="currentFilter" /> <span
+				class="input-group-addon btn-success"> <span
+				class="glyphicon glyphicon-search"></span>
+			</span>
+		</div>
+		<br />
+		<form novalidate name="addCategoryForm">
+			<div
+				ng-class="{ 'has-error' : addCategoryForm.name.$error.maxlength || addCategoryForm.name.$error.minlength  }">
+				<div class="input-group">
+					<input name="name" type="text" class="form-control"
+						ng-model="vm.addNewItem" g
+						placeholder="{{ 'ADD_CATEGORY' | translate }}" required
+						ng-minlength="1" ng-maxlength="50" />
+					<div class="input-group-btn">
+						<button type="button" class="btn btn btn-success btn-md"
+							ng-disabled="addCategoryForm.$invalid"
+							ng-click="vm.saveCategory()">
+							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+						</button>
+					</div>
+				</div>
+				<p ng-show="addCategoryForm.name.$error.minlength"
+					class="help-block" translate="NAME_TOO_SHORT">Nazwa Kategorii
+					jest za d³uga</p>
+				<p ng-show="addCategoryForm.name.$error.maxlength"
+					class="help-block" translate="NAME_TOO_LONG">Nazwa Kategorii
+					jest za d³uga</p>
+			</div>
+		</form>
+	</div>
+</div>
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th translate="NAME">Nazwa</th>
+			<th translate="EDIT">Edytuj</th>
+		</tr>
+	</thead>
+	<tr ng-repeat="item in vm.categories | filter:currentFilter"
+		class="animate">
+		<td>{{item.id}}</td>
+		<td ng-hide="vm.showInput(item.id)">{{item.name}}</td>
+		<td ng-show="vm.showInput(item.id)">
+			<form name="editCategory">
+				<div
+					ng-class="{ 'has-error' : editCategory.editname.$error.maxlength || editCategory.editname.$error.minlength  }">
+					<input name="editname" type="text" class="form-control"
+						value="{{item.name}}" ng-model="vm.editCategoryName" required
+						ng-minlength="1" ng-maxlength="50" />
+					<p ng-show="editCategory.editname.$error.minlength"
+						class="help-block" translate="NAME_TOO_SHORT">Nazwa Kategorii
+						jest za d³uga</p>
+					<p ng-show="editCategory.editname.$error.maxlength"
+						class="help-block" translate="NAME_TOO_LONG">Nazwa Kategorii
+						jest za d³uga</p>
+				</div>
+			</form>
+		</td>
+
+		<td width="100px" ng-hide="vm.showInput(item.id)"><button
+				type="button" ng-click="vm.startEditItem(item)"
+				class="btn btn-default btn-sm">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+			</button></td>
+
+		<td width="100px" ng-show="vm.showInput(item.id)"><button
+				type="button" ng-click="vm.updateItem()"
+				class="btn btn-warning btn-sm" ng-disabled="editCategory.$invalid">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<button type="button" ng-click="vm.cancelEditItem()"
+					class="btn btn-danger btn-sm">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+				</button>
+			</button></td>
+
+
+	</tr>
+</table>
