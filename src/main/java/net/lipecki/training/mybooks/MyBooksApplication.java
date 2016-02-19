@@ -42,7 +42,6 @@ public class MyBooksApplication {
 		book2.setAuthor(new Author(0L, "Zenon Zielonooki"));
 		book2.setSeries(new Series(0L, "Zdrada marsa"));
 		book2.getCategories().add(sciFi);
-		book2.getCategories().add(fantasy);
 		editBookService.addBook(book2);
 
 		final Book book3 = new Book();
@@ -50,7 +49,6 @@ public class MyBooksApplication {
 		book3.setIsbn("9788251601393");
 		book3.setAuthor(new Author(0L, "Żółw Żółwiasty"));
 		book3.setSeries(new Series(0L, "Franklin i przyjaciele"));
-		book3.getCategories().add(fantasy);
 		book3.getCategories().add(horror);
 		editBookService.addBook(book3);
 	}
