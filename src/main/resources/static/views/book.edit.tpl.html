@@ -1,33 +1,106 @@
 <div class="panel panel-default">
-    <div class="panel-heading">Dodaj nową książkę</div>
+    <div class="panel-heading" ng-bind="vm.getTitle() || title">title</div>
     <div class="panel-body">
         <form novalidate name="editBookForm">
-            <div class="form-group">
+            <div class="form-group"
+                 ng-class="{ 'has-error': editBookForm.name.$touched && editBookForm.name.$invalid }">
                 <label for="name">Nazwa</label>
-                <input name="name" type="text" class="form-control" placeholder="Podaj nazwę" required />
-                <span class="help-block">Musisz podać nazwę książki</span>
+                <input ng-model="vm.book.name" name="name" type="text" class="form-control" placeholder="Podaj nazwę"
+                       required ng-minlength="3"/>
+                <div class="help-block" ng-messages="editBookForm.name.$error" ng-messages="editBookForm.name.$error"
+                     ng-if="editBookForm.name.$touched && editBookForm.name.$invalid">
+                    <p ng-message="minlength">Nazwa nie może byc krótsza niż 3 znaki.</p>
+                    <p ng-message="required">Musisz podać nazwę książki.</p>
+                </div>
             </div>
-            <div class="form-group" >
+            <div class="form-group" ng-class="{ 'has-error': editBookForm.isbn.$touched && editBookForm.isbn.$invalid}">
                 <label for="isbn">ISBN</label>
-                <input name="isbn" type="text" class="form-control" placeholder="Podaj numer ISBN" required />
-                <span class="help-block">Musisz podać poprawny numer ISBN</span>
+                <input ng-model="vm.book.isbn" name="isbn" type="text" class="form-control"
+                       placeholder="Podaj numer ISBN" required/>
+                <div class="help-block" ng-messages="editBookForm.isbn.$error" ng-messages="editBookForm.name.$error"
+                     ng-if="editBookForm.isbn.$touched && editBookForm.isbn.$invalid">
+                    <p ng-message="required">Musisz podać poprawny numer ISBN.</p>
+                </div>
             </div>
-            <div class="form-group">
+            <div ng-init="vm.addAuthor = false" ng-show="vm.addAuthor === false" class="form-group"
+                 ng-class="{ 'has-error': editBookForm.author.$touched && editBookForm.author.$invalid}">
                 <label for="author">Autor</label>
-                <select name="author" class="form-control" required>
+                <select ng-model="vm.book.author" name="author"
+                        ng-options="author as author.name for author in vm.authors" class="form-control" required>
                 </select>
-                <span class="help-block">Musisz wybrać autora książki</span>
+                <div class="help-block" ng-messages="editBookForm.author.$error"
+                     ng-messages="editBookForm.author.$error"
+                     ng-if="editBookForm.author.$touched && editBookForm.author.$invalid">
+                    <p ng-message="required">Musisz wybrać autora książki</p>
+                </div>
             </div>
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" /> Dodaj nowego autora
+                    <input type="checkbox" ng-model="vm.addAuthor" ng-click="vm.clearAuthor()"/> Dodaj nowego autora
                 </label>
             </div>
-            <div class="form-group" >
+            <div class="form-group" ng-show="vm.addAuthor"
+                 ng-class="{ 'has-error': editBookForm.authorName.$touched && editBookForm.authorName.$invalid}">
                 <label for="authorName">Nazwa autora</label>
-                <input type="text" placeholder="Podaj nazwę autora" class="form-control" required />
+                <input ng-model="vm.book.author.name" name="authorName" type="text" placeholder="Podaj nazwę autora"
+                       class="form-control" required/>
+                <div class="help-block"
+                     ng-messages="editBookForm.authorName.$error"
+                     ng-if="editBookForm.authorName.$touched && editBookForm.authorName.$invalid">
+                    <p ng-message="required">Musisz podać autora książki</p>
+                </div>
             </div>
-        </form>
-        <button type="button" class="btn btn-success">Zapisz</button>
+
+            <!--Series-->
+            <div ng-init="vm.addSeries = false" ng-show="vm.addSeries === false" class="form-group">
+                <label for="series">Seria</label>
+                <select ng-model="vm.book.series" name="series"
+                        ng-options="series as series.name for series in vm.series" class="form-control">
+                </select>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="vm.addSeries" ng-click="vm.clearSeries()"/> Dodaj nową serię
+                </label>
+            </div>
+            <div class="form-group" ng-show="vm.addSeries">
+                <label for="seriesName">Nazwa serii</label>
+                <input ng-model="vm.book.series.name" type="text" placeholder="Podaj nazwę serii" class="form-control"/>
+            </div>
+            <!--Categorie-->
+            <div class="form-group">
+                <label for="categories">Kategorie</label>
+                <p>
+                    <div>Wybrane kategorie: {{(vm.book.categories | map:'name').join(', ')}}</div>
+                    </p>
+                </div>
+            <am-multiselect class="input-lg" multiple="true"
+                            ms-selected="Wybrane kategorie: {{(vm.book.categories | map:'name').join(', ')}}"
+                            ng-model="vm.book.categories" ms-header="Wybierz kategorie"
+                            options="category as category.name for category in vm.categories"
+                            change="selected()"></am-multiselect>
+
     </div>
+
+    <div class="form-group">
+        <div>Dodaj nową kategorię do listy</div>
+        <div class="row">
+            <div class="col-md-10">
+                <input ng-model="vm.category.name" type="text" placeholder="Podaj nazwę kategorii"
+                       class="form-control"/>
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-success" ng-click="vm.addCategory()">
+                    Dodaj
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    </form>
+    <button type="button" class="btn btn-success" ng-disabled="editBookForm.$invalid" ng-click="vm.saveBook()">
+        Zapisz
+    </button>
+</div>
 </div>
