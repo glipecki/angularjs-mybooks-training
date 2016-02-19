@@ -113,8 +113,10 @@ describe('Test BookAddController', function() {
     });
     
     it('addbook new book with notexisting author should call addAuthor and addBook', function() {
+        //given
         expectedBook = { author: { }, name: "bookname1" };
         expectedAuthor = { name: "newAuthor1" };
+
         controller = $controller('BookAddController', {
            authors: [{name: "name1", id: 1},{name: "name2", id:2}],
            book: expectedBook,
@@ -123,16 +125,20 @@ describe('Test BookAddController', function() {
         });
         controller.isAddNewAuthor=true;
         controller.typedAuthor=expectedAuthor.name;
-        spyOn(authorsService, 'addAuthor').and.callThrough();
-        spyOn(authorsService, 'getAuthors').and.callThrough();
-        spyOn(bookService, 'getBook').and.callThrough();
-        spyOn(bookService, 'getBooks').and.callThrough();
-        spyOn(bookService, 'addBook').and.callThrough();
+        spyOn(bookService, 'addBook').and.callFake( function(book, onSuccess) {
+           onSuccess(); 
+        });
+        spyOn(authorsService, 'addAuthor').and.callFake( function(author, onSuccess) {
+            onSuccess();
+        });
+
+        //when
         controller.addBook();
-        expect(controller.book.author).toBeDefined();
-        // shouldnt call addAuthor
+        
+        //then
+        // should call addAuthor
         expect(authorsService.addAuthor).toHaveBeenCalledWith(expectedAuthor, jasmine.anything());
-        // shouldnt call addAuthor
+        // should call addBook
         expect(bookService.addBook).toHaveBeenCalledWith(expectedBook, jasmine.anything());
     });
     
