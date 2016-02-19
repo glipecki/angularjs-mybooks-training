@@ -19,7 +19,7 @@ app.service('BookService', ['$http', '$q', function($http, $q) {
 		});
 		return deferred.promise;	
 	};
-	this.addBook = function(book, newCategories) {
+	this.addBook = function(book, newCategories = []) {
 		for (newCategoryName of newCategories) {
 			book.categories.push({name: newCategoryName});
 		}
@@ -32,7 +32,7 @@ app.service('BookService', ['$http', '$q', function($http, $q) {
 		});
 		return deferred.promise;		
 	};
-	this.updateBook = function(book, newCategories) {
+	this.updateBook = function(book, newCategories = []) {
 		for (newCategoryName of newCategories) {
 			book.categories.push({name: newCategoryName});
 		}
@@ -49,9 +49,11 @@ app.service('BookService', ['$http', '$q', function($http, $q) {
 
 app.service('BookCategoriesService', function() {
 	this.getBookCategory = function(book, category) {
-		for (bookCategory of book.categories) {
-			if (bookCategory.id === category.id) {
-				return bookCategory;
+		if (book.categories) {
+			for (bookCategory of book.categories) {
+				if (bookCategory.id === category.id) {
+					return bookCategory;
+				}
 			}
 		}
 		return;
@@ -134,7 +136,7 @@ app.controller('AddBookController', ['authors', 'series', 'categories', 'BookSer
 		this.book.series = {};
 	}
 	this.resetCategories = function() {
-		this.book.categories = {};
+		this.book.categories = [];
 	}
 
 	this.getBookCategory = function(category) {
@@ -176,7 +178,7 @@ app.controller('EditBookController', ['authors', 'series', 'categories', 'book',
   				content: 'BOOK_EDIT_SUCCESS'
 			});
 		}, function() {
-			gToast.danger({
+			ngToast.danger({
   				content: 'BOOK_EDIT_ERROR'
 			});
 		})
@@ -237,9 +239,8 @@ app.controller('EditBookController', ['authors', 'series', 'categories', 'book',
 
 }]);
 
-app.filter('filterNameOrAuthorName', ['$filter', function($filter) {
+app.filter('filterNameOrAuthorName', function() {
 	return function(list, search) {
-		console.log(search);
 		if (!search || !list) {
 			return list;
 		}
@@ -251,7 +252,5 @@ app.filter('filterNameOrAuthorName', ['$filter', function($filter) {
             var isAuthorName = item.author.name.toLowerCase().indexOf(searchTerm) > -1;
             return isBookName || isAuthorName;
         });
-	/*	var byBookName = $filter('filter')(list, {'name': search});
-		var byAuthorName = $filter('filter')(list, {'author': {'name' : search}});*/
 	};
-}]);
+});

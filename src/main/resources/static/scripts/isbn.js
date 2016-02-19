@@ -3,7 +3,6 @@ var app = angular.module('mybooks');
 app.service('IsbnService', function() {
 
 	this.isValidIsbn = function(elem, value, ctrl) {
-		console.log(value);
 		if (!value || value && value.length < 10) {
 			this.setValidity(ctrl, false);
 			return value;
@@ -32,7 +31,8 @@ app.service('IsbnService', function() {
 			formatted =
 				isbn.substring(0, 1) + SEPARATOR
 				+ isbn.substring(1, 4) + SEPARATOR
-				+ isbn.substring(4, 10);
+				+ isbn.substring(4, 9) + SEPARATOR
+				+ isbn.substring(9, 10);
 		} else if (isbn && isbn.length === 13) {
 			formatted =
 				isbn.substring(0, 3) + SEPARATOR
