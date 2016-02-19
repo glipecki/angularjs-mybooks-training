@@ -1,0 +1,42 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Filtruj autorów" ng-model="myfilter"/input>
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-search"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+<table class="table table-hover">
+    <tbody>
+        <tr ng-repeat="author in vm.authors | filter:myfilter">
+           <td>{{$index + 1}}</td>
+           <td>
+               <span ng-hide="editMode">{{author.name}}</span>
+               <input type="text" ng-show="editMode" ng-model="author.name" ng-required />
+           </td>
+           <td>
+               <button type="submit" ng-hide="editMode" ng-click="editMode = true; editAuthor(author)" class="btn btn-success">Edit</button>
+               <button type="submit" ng-show="editMode" ng-click="editMode = false; saveAuthor(author)" class="btn btn-success">Save</button>
+               <button type="submit" ng-show="editMode" ng-click="editMode = false; cancelAuthor()" class="btn btn-success">Cancel</button>
+           </td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<form validate name="editAuthorForm">
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="addAuthorChecked" aria-label="Toggle ngHide"/> Dodaj nowego autora
+        </label>
+    </div>
+    <div class="form-group" ng-class="{'has-error': editAuthorForm.authorName.$invalid && !editAuthorForm.authorName.$pristine}" ng-show="addAuthorChecked" class="ng-hide">
+        <label for="authorName">Autor</label>
+        <input name="authorName" type="text" placeholder="Podaj autora" class="form-control" ng-model="newAuthorName" ng-required="addAuthorChecked"/>
+        <span class="help-block" ng-show="editAuthorForm.authorName.$invalid && !editAuthorForm.authorName.$pristine">Musisz podać autora</span>
+    </div>
+</form>
+<button type="button" class="btn btn-success" ng-disabled="editAuthorForm.$invalid || !addAuthorChecked" ng-click="addAuthor()">Zapisz</button>
+

@@ -1,33 +1,80 @@
 <div class="panel panel-default">
-    <div class="panel-heading">Dodaj nową książkę</div>
+    <div class="panel-heading" ng-controller="NavbarController as vm" ng-show="vm.currentNavigationState.name === 'book-edit'">Edytuj książkę</div>
+    <div class="panel-heading" ng-controller="NavbarController as vm" ng-show="vm.currentNavigationState.name === 'book-add'">Dodaj nową książkę</div>
     <div class="panel-body">
         <form novalidate name="editBookForm">
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error': editBookForm.name.$invalid && !editBookForm.name.$pristine}">
                 <label for="name">Nazwa</label>
-                <input name="name" type="text" class="form-control" placeholder="Podaj nazwę" required />
-                <span class="help-block">Musisz podać nazwę książki</span>
+                <input name="name" type="text" class="form-control" placeholder="Podaj nazwę" ng-model="vm.book.name" required/>
+                <span class="help-block" ng-show="editBookForm.name.$invalid && !editBookForm.name.$pristine">Musisz podać nazwę książki</span>
             </div>
-            <div class="form-group" >
+            <div class="form-group" ng-class="{'has-error': editBookForm.isbn.$invalid && !editBookForm.isbn.$pristine}">
                 <label for="isbn">ISBN</label>
-                <input name="isbn" type="text" class="form-control" placeholder="Podaj numer ISBN" required />
-                <span class="help-block">Musisz podać poprawny numer ISBN</span>
+                <input name="isbn" type="text" class="form-control" placeholder="Podaj numer ISBN" ng-model="vm.book.isbn" required/>
+                <span class="help-block" ng-show="editBookForm.isbn.$invalid && !editBookForm.isbn.$pristine">Musisz podać poprawny numer ISBN</span>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error': editBookForm.author.$invalid && !editBookForm.author.$pristine}">
                 <label for="author">Autor</label>
-                <select name="author" class="form-control" required>
+                <select name="author" class="form-control" ng-model="vm.book.author" 
+                        ng-options="author.name for author in vm.authors track by author.id" ng-disabled="addAuthorChecked" ng-required="!addAuthorChecked">
                 </select>
-                <span class="help-block">Musisz wybrać autora książki</span>
+                <span class="help-block" ng-show="editBookForm.author.$invalid && !editBookForm.author.$pristine">Musisz wybrać autora książki</span>
             </div>
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" /> Dodaj nowego autora
+                    <input type="checkbox" ng-model="addAuthorChecked" ng-click="clearAuthor()" aria-label="Toggle ngHide"/> Dodaj nowego autora
                 </label>
             </div>
-            <div class="form-group" >
+            <div class="form-group animate-show-hide" ng-class="{'has-error': editBookForm.authorName.$invalid && !editBookForm.authorName.$pristine}" ng-show="addAuthorChecked">
                 <label for="authorName">Nazwa autora</label>
-                <input type="text" placeholder="Podaj nazwę autora" class="form-control" required />
+                <input name="authorName" type="text" placeholder="Podaj nazwę autora" class="form-control" ng-model="vm.book.author.name" ng-required="addAuthorChecked"/>
+                <span class="help-block" ng-show="editBookForm.authorName.$invalid && !editBookForm.authorName.$pristine">Musisz podać autora książki</span>
+            </div>
+            <div class="form-group" >
+                <label for="series">Seria</label>
+                <select name="series" class="form-control" ng-model="vm.book.series" ng-options="series.name for series in vm.series track by series.id" ng-disabled="addSeriesChecked">
+                </select>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="addSeriesChecked" ng-click="clearSeries()" aria-label="Toggle ngHide"/> Dodaj nową serię
+                </label>
+            </div>
+            <div class="form-group animate-show-hide" ng-class="{'has-error': editBookForm.seriesName.$invalid && !editBookForm.seriesName.$pristine}" ng-show="addSeriesChecked">
+                <label for="seriesName">Nazwa serii</label>
+                <input name="seriesName" type="text" placeholder="Podaj nazwę serii" class="form-control" ng-model="vm.book.series.name" ng-required="addSeriesChecked"/>
+                <span class="help-block" ng-show="editBookForm.seriesName.$invalid && !editBookForm.seriesName.$pristine">Podaj serię książki</span>
+            </div>
+            <div class="form-group" >
+                <label for="category">Kategoria</label>
+                <div class="row">
+                    <div class="col-md-10">
+                        <span ng-repeat="category in vm.allBookCategories"> {{category.name}} 
+                            <span ng-show="!$last">, </span>
+                        </span>
+                     </div>
+                </div>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="changeCategoryChecked" aria-label="Toggle ngHide"/> Ustaw kategorie
+                </label>
+            </div>
+            <div class="form-group animate-show-hide" ng-show="changeCategoryChecked">
+                <select size="4" id="categorySelection" multiple ng-multiple="true" 
+                    ng-model="vm.book.categories" ng-options="category.name for category in vm.categories track by category.id" ng-click="updateCategory()"></select>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="addCategoryChecked" aria-label="Toggle ngHide" ng-click="clearNewCategory()"/> Dodaj nową kategorię
+                </label>
+            </div>
+            <div class="form-group animate-show-hide" ng-show="addCategoryChecked" ng-class="{'has-error': editBookForm.categoryName.$invalid && !editBookForm.categoryName.$pristine}">
+                <label for="categoryName">Nazwa kategorii</label>
+                <input name="categoryName" type="text" placeholder="Podaj nazwę kategorii" class="form-control" ng-model="newCategoryName" ng-change="updateCategory()" ng-required="addCategoryChecked"/>
+                <span class="help-block" ng-show="editBookForm.categoryName.$invalid && !editBookForm.categoryName.$pristine">Podaj kategorię książki</span>
             </div>
         </form>
-        <button type="button" class="btn btn-success">Zapisz</button>
+        <button type="button" class="btn btn-success" ng-disabled="editBookForm.$invalid" ng-click="saveBook()">Zapisz</button>
     </div>
 </div>
