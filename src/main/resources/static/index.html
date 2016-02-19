@@ -1,6 +1,5 @@
 <!doctype html>
-<html>
-
+<html ng-app="booksApp">
 <head>
     <link rel="stylesheet" href="libs/font-awesome-4.5.0/css/font-awesome.css" />
     <link rel="stylesheet" href="libs/bootstrap-3.3.6/css/bootstrap.css" />
@@ -17,11 +16,10 @@
         }
     </style>
 </head>
-
 <body>
     <div>
         <nav class="navbar navbar-default">
-            <div class="container">
+            <div class="container" ng-controller="NavbarController as vm">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">
                         <i class="fa fa-book"></i> myBooks
@@ -29,21 +27,26 @@
                 </div>
                 <div>
                     <ul class="nav navbar-nav">
-                        <li>
-                            <a>Lista książek</a>
+                        <li ng-class="{
+                                      'active': vm.currentNavigationState.name === 'book-list'
+                                      }">
+                            <a ui-sref="book-list">Lista książek</a>
                         </li>
-                        <li>
-                            <a>Dodaj książkę</a>
+                        <li ng-class="{
+                                      'active': vm.currentNavigationState.name === 'book-add'
+                                      }">
+                            <a ui-sref="book-add">Dodaj książkę</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
+        <div id="overlay" x-cd-overlay></div>
         <div id="content">
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <div></div>
+                        <div ui-view></div>
                     </div>
                 </div>
             </div>
@@ -52,6 +55,7 @@
 <script type="text/javascript" src="libs/bootstrap-3.3.6/js/bootstrap.js"></script>
 <script type="text/javascript" src="libs/angular-1.4.8.js"></script>
 <script type="text/javascript" src="libs/angular-ui-router-0.2.15.js"></script>
+<script type="text/javascript" src="libs/angular-resource.js"></script>
 <script type="text/javascript" src="app.js"></script>
 
 </html>

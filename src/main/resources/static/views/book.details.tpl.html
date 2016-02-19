@@ -1,6 +1,6 @@
 <div class="panel panel-default">
-    <div class="panel-heading">Bohaterowie umierają
-        <em>Matthew Woodring Stover</em>)</div>
+    <div class="panel-heading">{{ vm.book.name }}
+        (<em>{{ vm.book.author.name }}</em>) <a ui-sref="book-edit({ id: vm.book.id })"><em>edycja</em></a></div>
     <div class="panel-body">
         <div class="row">
             <div class="col-md-3 book-cover">
@@ -9,7 +9,7 @@
             <div class="col-md-9">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 class="book-title">Bohaterowie umierają</h3>
+                        <h3 class="book-title">{{ vm.book.name }}</h3>
                     </div>
                 </div>
                 <div class="row">
@@ -17,7 +17,7 @@
                         <em>ISBN</em>
                     </div>
                     <div class="col-md-10">
-                        9788374801393
+                        {{ vm.book.isbn }}
                     </div>
                 </div>
                 <div class="row">
@@ -25,7 +25,7 @@
                         <em>Autor</em>
                     </div>
                     <div class="col-md-10">
-                        Matthew Woodring Stover
+                        {{ vm.book.author.name }}
                     </div>
                 </div>
                 <div class="row">
@@ -33,15 +33,16 @@
                         <em>Seria</em>
                     </div>
                     <div class="col-md-10">
-                        Akty Caine'a
+                        {{ vm.book.series.name }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2 book-info-label">
                         <em>Kategorie</em>
                     </div>
-                    <div class="col-md-10">
-                        Fantastyka
+                    <div class="col-md-10" ng-repeat="category in vm.book.categories">
+                        {{ category.name }}
+                        <span ng-show="!$last">, </span>
                     </div>
                 </div>
             </div>
