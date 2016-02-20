@@ -1,6 +1,6 @@
 <div class="panel panel-default">
-    <div class="panel-heading">Bohaterowie umierają
-        <em>Matthew Woodring Stover</em>)</div>
+    <div class="panel-heading">{{ vm.book.name }}
+        <em>{{ vm.book.author.name }}</em></div>
     <div class="panel-body">
         <div class="row">
             <div class="col-md-3 book-cover">
@@ -9,41 +9,42 @@
             <div class="col-md-9">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 class="book-title">Bohaterowie umierają</h3>
+                        <h3 class="book-title">{{ vm.book.name }}</h3>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2 book-info-label">
-                        <em>ISBN</em>
+                        <em>{{ 'ISNB' | translate }}</em>
                     </div>
                     <div class="col-md-10">
-                        9788374801393
+                        {{ vm.book.isbn }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2 book-info-label">
-                        <em>Autor</em>
+                        <em>{{ 'AUTHOR' | translate }}</em>
                     </div>
                     <div class="col-md-10">
-                        Matthew Woodring Stover
+                        {{ vm.book.author.name }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2 book-info-label">
-                        <em>Seria</em>
+                        <em>{{ 'SERIES' | translate }}</em>
                     </div>
                     <div class="col-md-10">
-                        Akty Caine'a
+                        {{ vm.book.series.name }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2 book-info-label">
-                        <em>Kategorie</em>
+                        <em>{{ 'CATEGORIES' | translate }}</em>
                     </div>
                     <div class="col-md-10">
-                        Fantastyka
+                        {{ vm.book.categories[0].name }}
                     </div>
                 </div>
+                <button type="button" class="btn btn-success" ng-click="vm.editBook()">{{ 'EDIT_BOOK' | translate }}</button>
             </div>
         </div>
     </div>
