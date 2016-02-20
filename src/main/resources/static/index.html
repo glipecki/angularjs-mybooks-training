@@ -1,57 +1,97 @@
 <!doctype html>
 <html>
 
-<head>
-    <link rel="stylesheet" href="libs/font-awesome-4.5.0/css/font-awesome.css" />
-    <link rel="stylesheet" href="libs/bootstrap-3.3.6/css/bootstrap.css" />
-    <link rel="stylesheet" href="libs/bootstrap-3.3.6/css/bootstrap-theme.css" />
-    <link type="text/css" rel="stylesheet" href="styles/app.css" />
+  <head>
+    <link rel="stylesheet" href="libs/font-awesome-4.5.0/css/font-awesome.css"/>
+    <link rel="stylesheet" href="libs/bootstrap-3.3.6/css/bootstrap.css"/>
+    <link rel="stylesheet" href="libs/bootstrap-3.3.6/css/bootstrap-theme.css"/>
+    <link type="text/css" rel="stylesheet" href="styles/app.css"/>
+    <link rel="stylesheet" type="text/css" href="libs/sweetalert-master/dist/sweetalert.css">
     <style>
-        [ng\:cloak],
-        [ng-cloak],
-        [data-ng-cloak],
-        [x-ng-cloak],
-        .ng-cloak,
-        .x-ng-cloak {
-            display: none !important;
-        }
-    </style>
-</head>
+      [ng\:cloak],
+      [ng-cloak],
+      [data-ng-cloak],
+      [x-ng-cloak],
+      .ng-cloak,
+      .x-ng-cloak {
+        display: none !important;
+      }
 
-<body>
+    </style>
+  </head>
+
+  <body ng-cloak>
     <div>
-        <nav class="navbar navbar-default">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">
-                        <i class="fa fa-book"></i> myBooks
-                    </a>
-                </div>
-                <div>
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <a>Lista książek</a>
-                        </li>
-                        <li>
-                            <a>Dodaj książkę</a>
-                        </li>
-                    </ul>
-                </div>
+      <div x-cd-overlay></div>
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+              <i class="fa fa-book"></i>
+              myBooks
+            </a>
+          </div>
+          <div ng-controller="NavbarController as vm">
+            <ul class="nav navbar-nav">
+              <li ng-class="{ 'active': vm.currentNavigationState.name === 'book-list' }">
+                <a ui-sref="book-list">{{ 'BOOKLIST' | translate }}</a>
+              </li>
+              <li ng-class="{ 'active': vm.currentNavigationState.name === 'book-add' }">
+                <a ui-sref="book-add">{{ 'ADDBOOK' | translate }}</a>
+              </li>
+              <li ng-class="{ 'active': vm.currentNavigationState.name === 'categories' }">
+                <a ui-sref="categories">{{ 'CATEGORIES' | translate }}</a>
+              </li>
+              <li ng-class="{ 'active': vm.currentNavigationState.name === 'series' }">
+                <a ui-sref="series">{{ 'SERIES' | translate }}</a>
+              </li>
+            </ul>
+          </div>
+          <div x-cd-language></div>
+        </div>
+      </nav>
+      <div id="content">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+              <div ui-view></div>
             </div>
-        </nav>
-        <div id="content">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <div></div>
-                    </div>
-                </div>
-            </div>
-</body>
-<script type="text/javascript" src="libs/jquery-2.2.0.js"></script>
-<script type="text/javascript" src="libs/bootstrap-3.3.6/js/bootstrap.js"></script>
-<script type="text/javascript" src="libs/angular-1.4.8.js"></script>
-<script type="text/javascript" src="libs/angular-ui-router-0.2.15.js"></script>
-<script type="text/javascript" src="app.js"></script>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <!-- libs -->
+  <script type="text/javascript" src="libs/jquery-2.2.0.js"></script>
+  <script type="text/javascript" src="libs/bootstrap-3.3.6/js/bootstrap.js"></script>
+  <script type="text/javascript" src="libs/angular-1.4.8.js"></script>
+  <script type="text/javascript" src="libs/angular-ui-router-0.2.15.js"></script>
+  <script type="text/javascript" src="libs/angular-isbn.js"></script>
+  <script type="text/javascript" src="libs/sweetalert-master/dist/sweetalert.min.js"></script>
+  <script type="text/javascript" src="libs/angular-translate.js"></script>
+  <script type="text/javascript" src="libs/angular-mocks-1.4.8.js"></script>
+  <script type="text/javascript" src="libs/angular-animate.js"></script>
+  <!-- main app -->
+  <script src="scripts/app.js" type="text/javascript"></script>
+  <!-- scripts/services -->
+  <script src="scripts/services/AlertService.js" type="text/javascript"></script>
+  <script src="scripts/services/AuthorService.js" type="text/javascript"></script>
+  <script src="scripts/services/BookService.js" type="text/javascript"></script>
+  <script src="scripts/services/CategoryService.js" type="text/javascript"></script>
+  <script src="scripts/services/IsbnValidatorService.js" type="text/javascript"></script>
+  <script src="scripts/services/SeriesService.js" type="text/javascript"></script>
+  <!-- scripts/controllers -->
+  <script src="scripts/controllers/AddBookController.js" type="text/javascript"></script>
+  <script src="scripts/controllers/BookDetailsController.js" type="text/javascript"></script>
+  <script src="scripts/controllers/BookListController.js" type="text/javascript"></script>
+  <script src="scripts/controllers/CategoriesController.js" type="text/javascript"></script>
+  <script src="scripts/controllers/CdOverlayController.js" type="text/javascript"></script>
+  <script src="scripts/controllers/EditBookController.js" type="text/javascript"></script>
+  <script src="scripts/controllers/NavbarController.js" type="text/javascript"></script>
+  <script src="scripts/controllers/CdLanguageController.js" type="text/javascript"></script>
+  <script src="scripts/controllers/SeriesController.js" type="text/javascript"></script>
+  <!-- scripts/directives -->
+  <script src="scripts/directives/cdOverlay.js" type="text/javascript"></script>
+  <script src="scripts/directives/cdLanguage.js" type="text/javascript"></script>
 
 </html>

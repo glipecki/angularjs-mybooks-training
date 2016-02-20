@@ -1,0 +1,33 @@
+<div class="panel panel-default">
+    <div class="panel-heading">Dodaj nową książkę</div>
+    <div class="panel-body">
+        <form novalidate name="editBookForm">
+            <div class="form-group" ng-class= "{'has-error': editBookForm.name.$invalid && !editBookForm.name.$pristine}">
+                <label for="book.name">Nazwa</label>
+                <input ng-model="vm.book.name" name="name" type="text" class="form-control" placeholder="Podaj nazwę" required />
+                <span class="help-block" ng-show="editBookForm.name.$invalid && !editBookForm.name.$pristine">Musisz podać nazwę książki</span>
+            </div>
+            <div class="form-group" ng-class= "{'has-error': editBookForm.isbn.$invalid && !editBookForm.isbn.$pristine}">
+                <label for="book.name">ISBN</label>
+                <input ng-model="vm.book.isbn" name="isbn" type="text" class="form-control" placeholder="Podaj numer ISBN" required />
+                <span class="help-block" ng-show="editBookForm.isbn.$invalid && !editBookForm.isbn.$pristine">Musisz podać poprawny numer ISBN</span>
+            </div>
+            <div class="form-group" ng-class= "{'has-error': editBookForm.author.$invalid && !editBookForm.author.$pristine}">
+                <label for="book.name">Autor</label>
+                <select ng-model="vm.book.author" ng-disabled="vm.createNewAuthor" name="author" ng-options="author as author.name for author in vm.authors" class="form-control" required>
+                </select>
+                <span class="help-block" ng-show="editBookForm.author.$invalid && !editBookForm.author.$pristine">Musisz wybrać autora książki</span>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="vm.createNewAuthor" ng-click="vm.resetAuthor()" /> Dodaj nowego autora
+                </label>
+            </div>
+            <div class="form-group" ng-show="vm.createNewAuthor">
+                <label for="authorName">Nazwa autora</label>
+                <input ng-model="vm.book.author.name" type="text" placeholder="Podaj nazwę autora" class="form-control" required />
+            </div>
+        </form>
+        <button type="button" class="btn btn-success" ng-disabled="editBookForm.$invalid" ng-click="vm.saveBook()">Dodaj książkę</button>
+    </div>
+</div>
