@@ -1,0 +1,90 @@
+<div class="panel panel-default">
+    <div class="panel-heading"> {{vm.title | translate}} </div>
+    <div class="panel-body">
+        <form novalidate name="editBookForm">
+            <div class="form-group" ng-class="{
+                'has-error': editBookForm.name.$invalid && !editBookForm.name.$pristine
+            }">
+                <label for="name" translate="BOOK_NAME"> </label>
+                <input ng-model="vm.book.name" name="name" type="text" class="form-control" placeholder="{{ 'ENTER_NAME' | translate }}" required />
+                <span class="help-block validation-animation" ng-show="editBookForm.name.$invalid && !editBookForm.name.$pristine" translate="BOOK_NAME_REQUIRED"> </span>
+            </div>
+            <div class="form-group" ng-class="{
+                'has-error': editBookForm.isbn.$invalid && !editBookForm.isbn.$pristine
+            }">
+                <label for="isbn" translate="BOOK_ISBN"> </label>
+                <input ng-model="vm.book.isbn" name="isbn" type="text" class="form-control" placeholder="{{ 'ENTER_ISBN' | translate }}" isbn-format required />
+                <span class="help-block validation-animation" ng-show="editBookForm.isbn.$error.isbnFormat && editBookForm.isbn.$touched"
+                    translate="ISBN_REQUIRED"></span>
+            </div>
+            <div class="form-group" ng-class="{
+                'has-error': editBookForm.author.$invalid && !editBookForm.author.$pristine
+            }">
+                <label for="author" translate="BOOK_AUTHOR"> </label>
+                <select ng-model="vm.book.author" name="author" ng-options="author as author.name for author in vm.authors" class="form-control" required>
+                </select>
+                <span class="help-block validation-animation" ng-show="editBookForm.author.$invalid && !editBookForm.author.$pristine" translate="BOOK_AUTHOR_REQUIRED"</span>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="vm.createNewAuthor" ng-click="vm.resetAuthor()"/> {{ 'ADD_NEW_AUTHOR' | translate }} 
+                </label>
+            </div>
+            <div class="form-group" ng-show="vm.createNewAuthor">
+                <label for="authorName" translate="AUTHOR_NAME"> </label>
+                <input ng-model="vm.book.author.name" type="text" placeholder="{{ 'ENTER_AUTHOR' | translate }} " class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="series" translate="SERIES"> </label>
+                <select ng-model="vm.book.series" name="series" ng-options="series as series.name for series in vm.series" class="form-control">
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="vm.createNewSeries" ng-click="vm.resetSeries()"/> {{ 'ADD_NEW_SERIES' | translate }} 
+                </label>
+            </div>
+            <div class="form-group" ng-show="vm.createNewSeries">
+                <label for="seriesName">{{ 'SERIES_NAME' | translate }} </label>
+                <input ng-model="vm.book.series.name" type="text" placeholder="{{ 'ENTER_SERIES' | translate }} " class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="category" translate="CATEGORIES"> </label>
+                <ul name="category">
+                    <li class="category-list" ng-repeat="category in vm.categories ">
+                        <div class="checkbox">
+                            <label>
+                                <input ng-checked="vm.isCategoryInBook(category)" ng-click="vm.toggleCategory(category)" type="checkbox" /> {{ category.name }} 
+                            </label>
+                        </div>            
+                    </li>
+                </ul>
+            </div>
+            <div>    
+                <ul>    
+                    <li class="category-list" ng-repeat="new in vm.newCategories">
+                        <div class="checkbox">
+                            <label>
+                                <input ng-checked="true" ng-click="vm.removeCategory(new)" type="checkbox" /> {{ new }} 
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="vm.createNewCategories" /> {{ 'ADD_NEW_CATEGORIES' | translate }} 
+                </label>
+            </div>
+            <div class="form-group" ng-show="vm.createNewCategories">
+                <label for="categoryName">{{ 'CATEGORY_NAME' | translate }} </label>
+                <div class="form-group">
+                    <input type="text" name="categoryName" ng-model="vm.newCategory" placeholder="{{ 'ENTER_CATEGORY_NAME' | translate }} " />
+                    <button type="button" class="btn btn-success"  ng-disabled="!vm.newCategory.length" ng-click="vm.addCategory(vm.newCategory); vm.newCategory=''" translate="ENTER"/>
+                </div>
+            </div>
+        </form>
+        <button type="button" class="btn btn-success" ng-disabled="editBookForm.$invalid" ng-click="vm.saveBook()" translate="SAVE_BOOK"> </button>
+    </div>
+</div>

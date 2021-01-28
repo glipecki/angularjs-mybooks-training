@@ -1,0 +1,49 @@
+<div class="panel panel-default">
+    <div class="panel-heading" ng-bind-html="vm.book.name + ' (<em>' +
+        vm.book.author.name + '</em>)'"> </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3 book-cover">
+                    <img src="covers/bohaterowie.jpg" class="book-cover" />
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 class="book-title"> {{ vm.book.name }}</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 book-info-label">
+                            <em translate="BOOK_ISBN">  </em>
+                        </div>
+                        <div class="col-md-10">
+                            <em ng-bind ="vm.book.isbn"> </em>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 book-info-label">
+                            <em translate="BOOK_AUTHOR"> </em>
+                        </div>
+                        <div class="col-md-10" ng-bind="vm.book.author.name"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 book-info-label">
+                            <em translate="SERIES"> </em>
+                        </div>
+                        <div class="col-md-10"ng-bind= "vm.book.series.name"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 book-info-label">
+                            <em translate="CATEGORIES"> </em>
+                        </div>
+                        <div class="col-md-10">
+                            <span ng-repeat="category in vm.book.categories">{{category.name}}<span ng-show="!$last">, </span></span>
+                        </div>
+                    </div> 
+                </div>
+                <div class="col-md-2">
+                    <a ui-sref="book-edit({id: vm.book.id})" translate="EDIT"> </a>
+                </div>
+            </div>
+        </div>
+    </div>

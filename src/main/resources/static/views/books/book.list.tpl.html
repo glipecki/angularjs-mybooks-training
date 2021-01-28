@@ -1,0 +1,15 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="input-group">
+            <input ng-model="vm.currentFilter" type="text" class="form-control" placeholder="{{ 'FILTER_BOOKS' | translate }}" />
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-search"></span>
+            </span>
+        </div>
+    </div>
+</div>
+<ul class="list-group">
+    <li class="list-group-item" ng-repeat="book in vm.books | filterNameOrAuthorName:vm.currentFilter">
+        <a ui-sref="book-details({id: book.id})" ng-bind-html="book.name + ' <em>(' + book.author.name + ')</em>'"> </a>
+    </li>
+</ul>
